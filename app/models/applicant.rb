@@ -47,5 +47,7 @@
 #
 
 class Applicant < ActiveRecord::Base
+  validates_inclusion_of :status, :in => %w(new denied accepted guilded waiting)
+  validates_presence_of :user_id
   validates_presence_of :character_name
 end

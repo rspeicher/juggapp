@@ -53,10 +53,8 @@ describe Applicant do
     @applicant = Factory(:applicant)
   end
   
+  it { should allow_value('denied').for(:status) }
+  it { should_not allow_value('invalid').for(:status) }
   it { should validate_presence_of(:user_id) }
   it { should validate_presence_of(:character_name) }
-  
-  it "should do something" do
-    true.should_not be_false
-  end
 end
