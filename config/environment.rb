@@ -15,6 +15,7 @@ Rails::Initializer.run do |config|
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
   # Specify gems that this application depends on and have them installed with rake gems:install
+  config.gem 'haml', :lib => 'haml', :version => '>=2.2.0'
   config.gem 'mislav-will_paginate', :lib => 'will_paginate', :version => '~> 2.2.3', :source => 'http://gems.github.com'
   config.gem 'formtastic', :lib => 'formtastic', :source => 'http://gemcutter.org'
 
