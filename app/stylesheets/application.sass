@@ -1,0 +1,258 @@
+@import constants.sass
+
+// IPB Style overrides --------------------------------------------------------
+ul#section_links
+  li
+    // border-right: 1px solid #CCC
+    margin: 0 5px
+  li.last
+    border-right: 0
+    margin: 0
+    
+form
+  fieldset.inputs
+    margin-bottom: 10px
+  // legend
+  //   display: block
+
+// Override WoW class styling -------------------------------------------------
+.Death_Knight, .Death, .Knight, .Deathknight, .Druid, .Hunter, .Mage, .Paladin, .Shaman, .Priest, .Rogue, .Warlock, .Warrior
+  &, &:link, &:visited
+    font-weight: normal
+    background: none
+    padding-left: 0
+  #breadcrumb &
+    font-weight: bold
+    
+#ipbwrapper .q1, #ipbwrapper .q1 a, .ac_results .q1, .ac_results .q1 a
+  color: #000000 !important
+  
+span.larger
+  font-size: 110%
+span.smaller
+  font-size: 85%
+    
+// Success/Failure flash notice divs ------------------------------------------
+.positive
+  color = !positive_color
+.negative
+  color = !negative_color
+  
+div.message.success
+  cursor: pointer
+  margin: 10px 0
+div.message.error
+  margin: 10px 0
+  .errorExplanation
+    ul
+      list-style-type: disc
+      li
+        margin-left: 15px
+  
+noscript, #server_error
+  .error
+    margin: 100px auto
+    padding: 75px 50px
+    width: 50%
+    -moz-border-radius: 25px
+    -webkit-border-radius: 25px
+    background-color: #FFFFFF
+    border-color: #000000
+    span
+      font-size: 3em
+  
+// Forms ----------------------------------------------------------------------
+@import formtastic_base.sass
+@import skintastic.sass
+form
+  +stack-form(nil)
+  legend
+    display: block
+  fieldset.playtimes
+    padding: 10px 0
+    legend
+      padding: 10px 0 0 0
+      display: block
+      span
+        font-size: 13px
+  div.playtimes
+    clear: both
+    line-height: 2.1em
+    label
+      display: none
+    li
+      font-size: 13px
+      font-weight: bold
+      margin: 0
+      padding: 2px 7px
+      clear: none
+      float: left
+      input
+        font-weight: normal
+  fieldset.submit
+    padding: 15px 6px
+    text-align: center
+  input.update
+    background: #e36d2c url(http://www.juggernautguild.com/public/style_images/splat/input_submit.png) repeat-x scroll 0 50%
+    color: #fff
+    border: 1px solid #b2531f
+    font-weight: bold
+    font-size: 0.85em
+    text-decoration: none
+    border-width: 1px
+    border-style: solid
+    padding: 3px 9px
+    overflow: visible
+    cursor: pointer
+    -moz-border-radius: 2px
+    -webkit-border-radius: 2px
+    
+    &:hover
+      background: #e7834b url(http://www.juggernautguild.com/public/style_images/splat/input_submit.png) repeat-x scroll 0 50%
+    
+// Tables ---------------------------------------------------------------------
+table.ipb_table
+  // // Table Cell Types
+  th.number, td.number, th.right, td.right
+    text-align: right
+    float: none !important
+  th.note, td.note
+    text-align: left
+    width: 75%
+  th.member, td.member
+    text-align: left
+    min-width: 150px
+  th.attendance, td.attendance
+    text-align: right
+    min-width: 80px
+  th.date, td.date
+    text-align: left
+    min-width: 125px
+  td.date
+    font-size: 1em
+  th.lootfactor, td.lootfactor
+    text-align: right
+    min-width: 50px
+  th.image, td.image, th.checkbox, td.checkbox
+    text-align: center
+    min-width: 16px
+    max-width: 48px
+    padding: 0
+  th.icon, td.icon
+    text-align: center
+    width: 16px
+    padding: 0
+  th.bullet, td.bullet
+    text-align: center
+    width: 16px
+    padding: 2px
+  th.center, td.center
+    text-align: center
+  tr.user_missing
+    td
+      background-color: #F3DDDD
+      border-color: #DEB7B7
+    
+  thead
+    tr
+      background: #f0f0f0
+      color: #838383
+      text-shadow: #fff 0px 1px 0px
+
+      th
+        color: #838383
+        border-top: 1px solid #fff
+        border-bottom: 1px solid #e4e4e4
+    a
+      color: #838383
+
+  tbody#itemfilter
+    tr
+      span
+        padding-right: 16px
+        &:hover
+          background: url(/images/bullet_left.png) no-repeat center right
+          text-decoration: underline
+          cursor: pointer
+    tr.shown
+      span
+        background: url(/images/bullet_delete.png) no-repeat center right
+        
+  // TableSorter
+  &.tablesorter
+    thead
+      tr
+        .header
+          background:
+            image: url(/images/sort_bg.gif) 
+            repeat: no-repeat
+            position: center right
+          cursor: pointer
+        .headerSortUp
+          background-image: url(/images/sort_asc.gif)
+        .headerSortDown
+          background-image: url(/images/sort_desc.gif)
+        th.note, th.attendance, th.lootfactor, th.number, th.right
+          padding-right: 20px
+          
+// Pagination -----------------------------------------------------------------
+div.pagination
+  height: 30px
+  padding: 0
+  margin: 5px 0 0 0
+  a, span
+    color: #838383
+    display: block
+    font-weight: bold
+    padding: 4px 7px
+    text-decoration: none
+    -moz-border-radius: 3px
+    -webkit-border-radius: 3px
+    background: #E4E4E4 url(http://www.juggernautguild.com/public/style_images/splat/page.png) repeat-x scroll 0 50%
+    float: left
+    font-size: 0.9em
+    margin: 0 2px 0 0
+    
+    &.disabled
+      background-color: #FFFFFF
+      color: #838383
+    
+  a
+    &.current, &:hover
+      background-color: #E9712D
+      color: #FFFFFF
+  span.current
+    background-color: #E9712D
+    color: #FFFFFF
+  .gap
+    background: transparent
+          
+// Progress Bars --------------------------------------------------------------
+// See http://blog.leetsoft.com/2006/8/22/super-simple-css-bars
+// and http://wiki.github.com/paolodona/rails-widgets/progressbar
+div.progress-container
+  border: 1px solid #ccc
+  width: 90%
+  margin: 2px 5px 2px 0
+  padding: 1px
+  float: left
+  background: white
+  div
+    height: 12px
+span.progress
+  line-height: 15px
+
+// Tabs -----------------------------------------------------------------------
+.ui-tabs
+  .ui-tabs-nav
+    li.ui-tabs-selected
+      background-color: #cd5316
+      font-weight: bold
+      -moz-border-radius: 3px 3px 0 0
+      -webkit-border-top-left-radius: 3px
+      -webkit-border-top-right-radius: 3px
+      a
+        color: #FFFFFF
+  // Hidden tab content
+  .ui-tabs-hide
+    display: none !important

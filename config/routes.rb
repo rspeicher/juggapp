@@ -1,4 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :applicant
+  map.resources :applicants
   map.root :controller => 'applicants', :action => 'index'
 end
