@@ -9,7 +9,9 @@
     %script{ :src => 'http://www.google.com/jsapi' }
     :javascript
       google.load('jquery', '1.3.2');
-  %body.apply{ :id => "#{controller.controller_name}_root" }
+      google.load('jqueryui', '1.7.2');
+    = javascript_include_tag 'application'
+  %body.lf{ :id => "#{controller.controller_name}_root" }
     %noscript
       .error
         %span This site makes extensive use of JavaScript. Please enable it to continue.
@@ -20,31 +22,29 @@
         %a#top{ :name => 'top' }
         %a{ :href => '#j_content', :title => 'Jump to content', :accesskey => 'm' }Jump to content
         
-      / - if admin?
-      /   #admin_bar
-      /     %p.right= link_to('Log in to your Admin CP &gt;', 'http://www.juggernautguild.com/a__dmin/index.php')
-      /     %strong Mod Tools:
-      /     %ul#mod_tools
-      /       %li= link_to('IP Lookup', 'http://www.juggernautguild.com/index.php?app=core&amp;module=usercp&amp;tab=members&amp;area=mod_ipaddress', :title => 'IP Lookup')
-      /       %li= link_to('Manage Announcement', 'http://www.juggernautguild.com/index.php?app=core&amp;module=usercp&amp;tab=forums&amp;area=mod_announcements', :title => 'Manage Announcement')
+      - if admin?
+        #admin_bar
+          %p.right= link_to('Log in to your Admin CP &gt;', 'http://www.juggernautguild.com/a__dmin/index.php')
+          %strong Mod Tools:
+          %ul#mod_tools
+            %li= link_to('IP Lookup', 'http://www.juggernautguild.com/index.php?app=core&amp;module=usercp&amp;tab=members&amp;area=mod_ipaddress', :title => 'IP Lookup')
+            %li= link_to('Manage Announcement', 'http://www.juggernautguild.com/index.php?app=core&amp;module=usercp&amp;tab=forums&amp;area=mod_announcements', :title => 'Manage Announcement')
 
       #header
         #branding
           #user_bar
-            / - unless current_user.nil?
-            /   #user_navigation.logged_in
-            /     #user_links
-            /       = link_to("Signed in as #{current_user.name}", "http://www.juggernautguild.com/user/#{current_user.member_id}-#{current_user.name.downcase}/")
-            /       - unless current_user.member.nil?
-            /         = link_to('My Standing', member_path(current_user.member))
-            /       = link_to_login_or_logout
-            /       %br.clear
-            / - else
-            /   #user_navigation.not_logged_in
-            /     #user_links
-            /       = link_to_login_or_logout
-            /       = link_to(image_tag('http://www.juggernautguild.com/public/style_images/splat/paste_plain.png', :alt => '') + ' Register', 'http://www.juggernautguild.com/index.php?app=core&module=global&section=register')
-            /       = link_to(image_tag('http://www.juggernautguild.com/public/style_images/splat/help.png', :alt => '') + ' Help', 'http://www.juggernautguild.com/index.php?app=core&module=help')
+            - unless current_user.nil?
+              #user_navigation.logged_in
+                #user_links
+                  = link_to("Signed in as #{current_user.name}", "http://www.juggernautguild.com/user/#{current_user.member_id}-#{current_user.name.downcase}/")
+                  = link_to_login_or_logout
+                  %br.clear
+            - else
+              #user_navigation.not_logged_in
+                #user_links
+                  = link_to_login_or_logout
+                  = link_to(image_tag('http://www.juggernautguild.com/public/style_images/splat/paste_plain.png', :alt => '') + ' Register', 'http://www.juggernautguild.com/index.php?app=core&module=global&section=register')
+                  = link_to(image_tag('http://www.juggernautguild.com/public/style_images/splat/help.png', :alt => '') + ' Help', 'http://www.juggernautguild.com/index.php?app=core&module=help')
           = link_to(image_tag('http://www.juggernautguild.com/public/style_images/4_Banner_1_copy.png', :alt => 'Logo'), 'http://www.juggernautguild.com/', :title => 'Go to board index', :rel => 'home', :accesskey => '1')
         #nav_container
           #nav_con_left
