@@ -47,8 +47,8 @@
 #
 
 class Applicant < ActiveRecord::Base
-  WOW_CLASSES = ['Death Knight'] + (%w(Druid Hunter Mage Paladin Priest Rogue Shaman Warlock Warrior))
-  WOW_RACES   = (['Blood Elf', 'Night Elf'] + (%w(Draenei Dwarf Gnome Human Orc Tauren Troll Undead))).sort
+  WOW_CLASSES = ['Death Knight'] + (%w(Druid Hunter Mage Paladin Priest Rogue Shaman Warlock Warrior)).sort.freeze
+  WOW_RACES   = (['Blood Elf', 'Night Elf'] + (%w(Draenei Dwarf Gnome Human Orc Tauren Troll Undead))).sort.freeze
   WOW_SERVERS = [
     "Aegwynn",
     "Aerie Peak",
@@ -301,5 +301,5 @@ class Applicant < ActiveRecord::Base
   validates_inclusion_of :character_race, :in => WOW_RACES, :message => "{{value}} is not a valid race"
   # validates_format_of :armory_link, :with => /^http:\/\/(www\.)?wowarmory\.com.+/, :message => 'is not a valid Armory link'
   
-  belongs_to :user, :class_name => "InvisionBridge::InvisionUser", :foreign_key => "user_id"
+  belongs_to :user
 end

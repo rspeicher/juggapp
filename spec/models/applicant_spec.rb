@@ -70,4 +70,6 @@ describe Applicant do
   # it { should allow_value("http://www.wowarmory.com/character-sheet.xml?r=Mal%27Ganis&n=Tsigo").for(:armory_link) }
   # it { should allow_value("http://wowarmory.com/character-sheet.xml?r=Mal%27Ganis&n=Tsigo").for(:armory_link) }
   # it { should_not allow_value("http://www.google.com/").for(:armory_link) }
+  
+  it { should belong_to(:user) }
 end
