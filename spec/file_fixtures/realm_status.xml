@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+  <channel>
+      <title> Realm Status</title>
+      <link>http://www.worldofwarcraft.com/realmstatus/</link>
+      <description>Realm status updates for all realms</description>
+      <ttl>2</ttl>
+      <language>en-us</language>
+      <pubDate>Thu, 18 Feb 2010 09:56:47 UTC</pubDate>
+      <lastBuildDate>Thu, 18 Feb 2010 09:56:47 UTC</lastBuildDate>
+      
+      <item>
+         <title>Aerie Peak (PVE) Realm Up</title>
+         <link>http://www.worldofwarcraft.com/realmstatus/status-events-rss.html?r=Aerie Peak</link>
+         <source url="http://www.worldofwarcraft.com/realmstatus/status-events-rss.html?r=Aerie Peak">Aerie Peak Realm Up</source>
+         <description>Population: Medium</description>
+         <pubDate>Thu, 18 Feb 2010 09:56:47 UTC</pubDate>
+         <guid>http://www.worldofwarcraft.com/realmstatus/status-events-rss.html?r=Aerie Peak</guid>
+      </item>
+      <item>
+         <title>Anub&#039;arak (PVP) Realm Up</title>
+         <link>http://www.worldofwarcraft.com/realmstatus/status-events-rss.html?r=Anub'arak</link>
+         <source url="http://www.worldofwarcraft.com/realmstatus/status-events-rss.html?r=Anub'arak">Anub&#039;arak Realm Up</source>
+         <description>Population: Low</description>
+         <pubDate>Thu, 18 Feb 2010 09:56:47 UTC</pubDate>
+         <guid>http://www.worldofwarcraft.com/realmstatus/status-events-rss.html?r=Anub'arak</guid>
+      </item>
+      <item>
+         <title>Argent Dawn (RP) Realm Up</title>
+         <link>http://www.worldofwarcraft.com/realmstatus/status-events-rss.html?r=Argent Dawn</link>
+         <source url="http://www.worldofwarcraft.com/realmstatus/status-events-rss.html?r=Argent Dawn">Argent Dawn Realm Up</source>
+         <description>Population: Medium</description>
+         <pubDate>Thu, 18 Feb 2010 09:56:47 UTC</pubDate>
+         <guid>http://www.worldofwarcraft.com/realmstatus/status-events-rss.html?r=Argent Dawn</guid>
+      </item>
+  </channel>
+</rss>
