@@ -12,8 +12,8 @@
       - @applications.each do |app|
         %tr{ :class => cycle('row1', 'row2') }
           %td= link_to('Edit', edit_application_path(app))
-          %td= h(app.character_name)
+          %td= h(app.character_info.current_name)
           %td= h(app.status.titlecase)
-          
+
 %fieldset.submit= link_to('Submit New', new_application_path, :class => 'input_submit')
 %br.clear

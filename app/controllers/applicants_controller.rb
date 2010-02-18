@@ -15,6 +15,9 @@ class ApplicantsController < ApplicationController
 
   def new
     @applicant = Applicant.new
+    @personal_info = ApplicantPersonal.new
+    @character_info = ApplicantCharacter.new
+    @system_info = ApplicantSystem.new
 
     respond_to do |wants|
       wants.html
