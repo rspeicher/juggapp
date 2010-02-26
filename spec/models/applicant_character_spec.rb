@@ -16,6 +16,8 @@ describe ApplicantCharacter do
   context "validations" do
     it { should validate_presence_of(:current_name) }
     it { should validate_presence_of(:server) }
+    it { should validate_presence_of(:current_race) }
+    it { should validate_presence_of(:wow_class) }
     it { should allow_value('Priest').for(:wow_class) }
     it { should_not allow_value('Invalid').for(:wow_class) }
     it { should allow_value('Undead').for(:current_race) }
