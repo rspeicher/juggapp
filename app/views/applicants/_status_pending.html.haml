@@ -1,0 +1,7 @@
+%div.status_info
+  %strong Pending:
+  Your application has not yet been posted for review. You can
+  = link_to('revise it', edit_application_path(app.id))
+  or
+  = link_to('post it for review', '#') + "."
+  Once an application is posted you will not be able to edit it.

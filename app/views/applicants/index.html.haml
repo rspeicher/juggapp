@@ -1,19 +1,17 @@
-- page_title 'Applications'
-- breadcrumb 'Applications'
+- page_title 'My Applications'
+- breadcrumb 'My Applications'
 %div.category_block.block_wrap
-  = render :partial => 'shared/maintitle'
-  %table.ipb_table
-    %thead
-      %tr
-        %th Actions
-        %th Character Name
-        %th Status
-    %tbody
-      - @applications.each do |app|
-        %tr{ :class => cycle('row1', 'row2') }
-          %td= link_to('Edit', edit_application_path(app))
-          %td= h(app.character_info.current_name)
-          %td= h(app.status.titlecase)
+  = render :partial => 'shared/maintitle', :object => "Applications"
+  - @applications.each do |app|
+    %div{ :class => "character_row status_#{app.status}" }
+      %div.character_image
+        = image_tag(character_icon(app.character_race, app.character_class), :alt => "Icon")
+      %div.application_status
+        = image_tag("status_#{app.status}.png", :alt => app.status.titlecase)
+      %div.application_info
+        %div.applicant_name
+          %h4= link_to(h(app.character_name), edit_application_path(app))
+        = render :partial => "status_#{app.status}", :locals => { :app => app }
 
-%fieldset.submit= link_to('Submit New', new_application_path, :class => 'input_submit')
+%fieldset.submit= link_to('Submit New Application', new_application_path, :class => 'input_submit')
 %br.clear

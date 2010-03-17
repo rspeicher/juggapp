@@ -8,7 +8,7 @@ ul#section_links
   li.last
     border-right: 0
     margin: 0
-    
+
 form
   fieldset.inputs
     margin-bottom: 10px
@@ -23,21 +23,21 @@ form
     padding-left: 0
   #breadcrumb &
     font-weight: bold
-    
+
 #ipbwrapper .q1, #ipbwrapper .q1 a, .ac_results .q1, .ac_results .q1 a
   color: #000000 !important
-  
+
 span.larger
   font-size: 110%
 span.smaller
   font-size: 85%
-    
+
 // Success/Failure flash notice divs ------------------------------------------
 .positive
   color = !positive_color
 .negative
   color = !negative_color
-  
+
 div.message.success
   cursor: pointer
   margin: 10px 0
@@ -48,7 +48,7 @@ div.message.error
       list-style-type: disc
       li
         margin-left: 15px
-  
+
 noscript, #server_error
   .error
     margin: 100px auto
@@ -60,7 +60,45 @@ noscript, #server_error
     border-color: #000000
     span
       font-size: 3em
-  
+
+// Custom Styles --------------------------------------------------------------
+div.character_row
+  border-width: 1px
+  border-style: solid
+
+  &.status_denied, &.status_pending
+    background-color: #f3dddd
+    border-color: #deb7b7
+  &.status_accepted, &.status_guilded
+    background-color: #f1f6ec
+    border-color: #b0ce94
+  &.status_waiting, &.status_posted
+    background-color: #FFFCCC
+    border-color = !notice_border_color
+
+  padding: 15px
+  margin: 5px 0
+  height: 65px
+
+  .character_image
+    float: left
+    clear: both
+
+  .application_info
+    margin-left: 84px
+    margin-right: 40px
+    h4
+      font-size: 2.3em
+      a
+        text-decoration: none
+    .status_info
+      font-size: 1.1em
+      margin-left: 5px
+      color: #333
+
+  .application_status
+    float: right
+
 // Forms ----------------------------------------------------------------------
 @import formtastic_base.sass
 @import skintastic.sass
@@ -106,10 +144,10 @@ form
     cursor: pointer
     -moz-border-radius: 2px
     -webkit-border-radius: 2px
-    
+
     &:hover
       background: #e7834b url(http://www.juggernautguild.com/public/style_images/splat/input_submit.png) repeat-x scroll 0 50%
-    
+
 // Tables ---------------------------------------------------------------------
 table.ipb_table
   // // Table Cell Types
@@ -152,7 +190,7 @@ table.ipb_table
     td
       background-color: #F3DDDD
       border-color: #DEB7B7
-    
+
   thead
     tr
       background: #f0f0f0
@@ -177,14 +215,14 @@ table.ipb_table
     tr.shown
       span
         background: url(/images/bullet_delete.png) no-repeat center right
-        
+
   // TableSorter
   &.tablesorter
     thead
       tr
         .header
           background:
-            image: url(/images/sort_bg.gif) 
+            image: url(/images/sort_bg.gif)
             repeat: no-repeat
             position: center right
           cursor: pointer
@@ -194,7 +232,7 @@ table.ipb_table
           background-image: url(/images/sort_desc.gif)
         th.note, th.attendance, th.lootfactor, th.number, th.right
           padding-right: 20px
-          
+
 // Pagination -----------------------------------------------------------------
 div.pagination
   height: 30px
@@ -212,11 +250,11 @@ div.pagination
     float: left
     font-size: 0.9em
     margin: 0 2px 0 0
-    
+
     &.disabled
       background-color: #FFFFFF
       color: #838383
-    
+
   a
     &.current, &:hover
       background-color: #E9712D
@@ -226,7 +264,7 @@ div.pagination
     color: #FFFFFF
   .gap
     background: transparent
-          
+
 // Progress Bars --------------------------------------------------------------
 // See http://blog.leetsoft.com/2006/8/22/super-simple-css-bars
 // and http://wiki.github.com/paolodona/rails-widgets/progressbar
