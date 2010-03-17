@@ -2,7 +2,7 @@
 - breadcrumb 'My Applications'
 %div.category_block.block_wrap
   = render :partial => 'shared/maintitle', :object => "Applications"
-  - @applications.each do |app|
+  - @applicants.each do |app|
     %div{ :class => "character_row status_#{app.status}" }
       %div.character_image
         = image_tag(character_icon(app.character_race, app.character_class), :alt => "Icon")

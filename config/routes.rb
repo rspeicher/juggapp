@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :applications, :controller => :applicants
+  map.resources :applications, :controller => :applicants, :except => [:show, :destroy]
   
   map.resource :user_session, :only => [:new, :create, :destroy]
   map.connect '/login', :controller => 'user_sessions', :action => 'new'

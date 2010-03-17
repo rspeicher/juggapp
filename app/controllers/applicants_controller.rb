@@ -3,7 +3,7 @@ class ApplicantsController < ApplicationController
   before_filter :find_parent
 
   def index
-    @applications = @parent.applicants.find(:all, :order => 'updated_at DESC')
+    @applicants = @parent.applicants.find(:all, :order => 'updated_at DESC')
 
     respond_to do |wants|
       wants.html
@@ -34,7 +34,7 @@ class ApplicantsController < ApplicationController
         flash[:message] = 'Application submitted successfully.'
         wants.html { redirect_to applications_path }
       else
-        flash[:error] = 'Application failed, please see errors below.'
+        # FIXME: Not getting an error message here
         wants.html { render :action => "new" }
       end
     end
@@ -48,7 +48,7 @@ class ApplicantsController < ApplicationController
         flash[:success] = 'Application updated successfully.'
         wants.html { redirect_to applications_path }
       else
-        flash[:error] = 'Application could not be updated, please see errors below.'
+        # FIXME: Not getting an error message here
         wants.html { render :action => 'edit' }
       end
     end
