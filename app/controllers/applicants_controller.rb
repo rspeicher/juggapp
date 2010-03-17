@@ -1,12 +1,9 @@
 class ApplicantsController < ApplicationController
   before_filter :require_user
+  before_filter :find_parent
 
   def index
-    if current_user.is_admin?
-      @applications = Applicant.find(:all, :order => 'updated_at DESC')
-    else
-      @applications = current_user.applications.find(:all, :order => 'updated_at DESC')
-    end
+    @applications = @parent.applicants.find(:all, :order => 'updated_at DESC')
 
     respond_to do |wants|
       wants.html
@@ -14,10 +11,7 @@ class ApplicantsController < ApplicationController
   end
 
   def new
-    @applicant = Applicant.new
-    @personal_info = ApplicantPersonal.new
-    @character_info = ApplicantCharacter.new
-    @system_info = ApplicantSystem.new
+    @applicant = @parent.applicants.new
 
     respond_to do |wants|
       wants.html
@@ -25,7 +19,7 @@ class ApplicantsController < ApplicationController
   end
 
   def edit
-    @applicant = Applicant.find(params[:id])
+    @applicant = @parent.applicants.find(params[:id])
 
     respond_to do |wants|
       wants.html
@@ -33,12 +27,12 @@ class ApplicantsController < ApplicationController
   end
 
   def create
-    @applicant = Applicant.new(params[:applicant])
+    @applicant = @parent.applicants.new(params[:applicant])
 
     respond_to do |wants|
       if @applicant.save
         flash[:message] = 'Application submitted successfully.'
-        wants.html { redirect_to applications_path(@applicant) }
+        wants.html { redirect_to applications_path }
       else
         flash[:error] = 'Application failed, please see errors below.'
         wants.html { render :action => "new" }
@@ -47,15 +41,21 @@ class ApplicantsController < ApplicationController
   end
 
   def update
-    @applicant = Applicant.find(params[:id])
+    @applicant = @parent.applicants.find(params[:id])
 
     respond_to do |wants|
       if @applicant.update_attributes(params[:applicant])
         flash[:success] = 'Application updated successfully.'
         wants.html { redirect_to applications_path }
       else
+        flash[:error] = 'Application could not be updated, please see errors below.'
         wants.html { render :action => 'edit' }
       end
     end
   end
+
+  protected
+    def find_parent
+      @parent = @user = current_user
+    end
 end

@@ -1,35 +1,35 @@
-- form.inputs 'Personal Information', :for => [ :applicant_personal, @personal_info ] do |child|
-  = child.input :name, :label => 'First name', :hint => 'Your real first name', :required => true
-  = child.input :age
-  = child.input :time_zone, :selected => "Central Time (US & Canada)"
-  - child.inputs :name => 'Play Times', :class => 'playtimes' do
+- form.inputs 'Personal Information' do
+  = form.input :name, :label => 'First name', :hint => 'Your real first name'
+  = form.input :age
+  = form.input :time_zone, :selected => "Central Time (US & Canada)"
+  - form.inputs :name => 'Play Times', :class => 'playtimes' do
     - %w(sunday monday tuesday wednesday thursday friday saturday).each do |day|
       .playtimes
-        = child.input "start_#{day}", :as => :string, :label => '', :required => false, :input_html => {:size => 8}
+        = form.input "start_#{day}", :as => :string, :label => '', :required => false, :input_html => {:size => 8}
         %li until
-        = child.input "end_#{day}", :as => :string, :label => '', :required => false, :input_html => {:size => 8}
+        = form.input "end_#{day}", :as => :string, :label => '', :required => false, :input_html => {:size => 8}
         %li= "CST #{day.titlecase}"
-  = child.input :known_members, :label => 'List any current Juggernaut members you know and how you know them', :input_html => {:size => '90x15'}
-  = child.input :future_commitments, :label => 'List any current or near future commitments you have that might affect your raid attendance', :input_html => {:size => '90x15'}
-  = child.input :reasons_for_joining, :label => 'Why do you want to join Juggernaut?', :input_html => {:size => '90x15'}
+  = form.input :known_members, :label => 'List any current Juggernaut members you know and how you know them', :input_html => {:size => '90x15'}
+  = form.input :future_commitments, :label => 'List any current or near future commitments you have that might affect your raid attendance', :input_html => {:size => '90x15'}
+  = form.input :reasons_for_joining, :label => 'Why do you want to join Juggernaut?', :input_html => {:size => '90x15'}
 
-- form.inputs 'Character Information', :for => [ :applicant_character, @character_info ] do |child|
-  = child.input :server, :label => 'Current server', :required => true
-  = child.input :current_name, :label => 'Current name', :required => true
-  = child.input :wow_class, :as => :select, :collection => ApplicantCharacter::WOW_CLASSES, :label => 'Class', :required => true
-  = child.input :current_race, :as => :select, :collection => ApplicantCharacter::WOW_RACES, :label => 'Current race', :required => true
-  = child.input :armory_link, :label => "Provide a link to your character's Armory profile", :required => true, :input_html => {:size => 92}, :hint => "Populated automatically. Change as needed."
-  = child.input :original_owner, :label => 'Are you the original owner of this character?'
-  = child.input :previous_guilds, :label => 'Describe, in detail, your entire guild history across all of your characters, and your reasons for leaving each guild', :input_html => {:size => '90x15'}
-  = child.input :pve_experience, :label => 'Describe your previous PvE experience', :input_html => {:size => '90x15'}
-  = child.input :pvp_experience, :label => 'Describe your previous PvP experience', :input_html => {:size => '90x15'}
-  = child.input :screenshot_link, :label => 'Provide a link to a screenshot of your interface during a raid', :input_html => {:size => 92}
+- form.inputs 'Character Information' do
+  = form.input :server, :label => 'Current server', :required => true
+  = form.input :character_name, :label => 'Current name', :required => true
+  = form.input :character_class, :as => :select, :collection => Applicant::WOW_CLASSES, :label => 'Class', :required => true
+  = form.input :character_race, :as => :select, :collection => Applicant::WOW_RACES, :label => 'Current race', :required => true
+  = form.input :armory_link, :label => "Provide a link to your character's Armory profile", :required => true, :input_html => {:size => 92}, :hint => "Populated automatically. Change as needed."
+  = form.input :original_owner, :label => 'Are you the original owner of this character?'
+  = form.input :previous_guilds, :label => 'Describe, in detail, your entire guild history across all of your characters, and your reasons for leaving each guild', :input_html => {:size => '90x15'}
+  = form.input :pve_experience, :label => 'Describe your previous PvE experience', :input_html => {:size => '90x15'}
+  = form.input :pvp_experience, :label => 'Describe your previous PvP experience', :input_html => {:size => '90x15'}
+  = form.input :screenshot_link, :label => 'Provide a link to a screenshot of your interface during a raid', :input_html => {:size => 92}
 
-- form.inputs 'System Information', :for => [ :applicant_system, @system_info ] do |child|
-  = child.input :connection_type, :label => 'What type of connection do you normally play on?'
-  = child.input :has_microphone, :label => 'Do you have a microphone?'
-  = child.input :has_ventrilo, :label => 'Do you have Ventrilo installed on your computer?'
-  = child.input :uses_ventrilo, :label => 'Do you talk on Ventrilo?'
+- form.inputs 'System Information' do
+  = form.input :connection_type, :label => 'What type of connection do you normally play on?'
+  = form.input :has_microphone, :label => 'Do you have a microphone?'
+  = form.input :has_ventrilo, :label => 'Do you have Ventrilo installed on your computer?'
+  = form.input :uses_ventrilo, :label => 'Do you talk on Ventrilo?'
 
 - form.inputs :name => 'Additional Comments' do
   = form.input :comments, :label => 'Add any additional information you think may be pertinent', :input_html => {:size => '90x15'}
