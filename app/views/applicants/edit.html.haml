@@ -1,4 +1,4 @@
 - page_title 'Edit Application'
-- breadcrumb link_to('Applications', applications_path), h(@applicant.character_name), 'Edit'
+- breadcrumb link_to('Applications', root_path), h(@applicant.character_name), 'Edit'
 - semantic_form_for @applicant, :url => application_path(@applicant) do |form|
   = render :partial => 'form', :object => form

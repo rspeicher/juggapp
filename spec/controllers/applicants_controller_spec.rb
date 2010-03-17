@@ -67,7 +67,7 @@ describe ApplicantsController, "POST create" do
     end
 
     it { should set_the_flash.to(/submitted successfully/) }
-    it { should redirect_to(applications_path) }
+    it { should redirect_to(root_path) }
   end
 
   context "failure" do
@@ -95,7 +95,7 @@ describe ApplicantsController, "PUT update" do
     end
 
     it { should set_the_flash.to(/updated successfully/) }
-    it { should redirect_to(applications_path) }
+    it { should redirect_to(root_path) }
   end
 
   context "failure" do

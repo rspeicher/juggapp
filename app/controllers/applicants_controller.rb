@@ -32,7 +32,7 @@ class ApplicantsController < ApplicationController
     respond_to do |wants|
       if @applicant.save
         flash[:message] = 'Application submitted successfully.'
-        wants.html { redirect_to applications_path }
+        wants.html { redirect_to root_path }
       else
         # FIXME: Not getting an error message here
         wants.html { render :action => "new" }
@@ -46,7 +46,7 @@ class ApplicantsController < ApplicationController
     respond_to do |wants|
       if @applicant.update_attributes(params[:applicant])
         flash[:success] = 'Application updated successfully.'
-        wants.html { redirect_to applications_path }
+        wants.html { redirect_to root_path }
       else
         # FIXME: Not getting an error message here
         wants.html { render :action => 'edit' }
