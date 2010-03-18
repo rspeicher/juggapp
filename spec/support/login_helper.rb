@@ -6,8 +6,6 @@ module LoginHelper
 
   def login(type = :user, args = {})
     unless type == :guest
-      type = :user unless type == :admin
-
       activate_authlogic
       UserSession.create(Factory(type))
     end
