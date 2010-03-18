@@ -5,9 +5,9 @@ class Applicant < ActiveRecord::Base
   # validates_format_of :armory_link, :with => /^http:\/\/(www\.)?wowarmory\.com.+/, :message => 'is not a valid Armory link'
 
   belongs_to :user
-  
+
   # Personal Info
-  
+
   # Character Info
   WOW_CLASSES = (['Death Knight'] + %w(Druid Hunter Mage Paladin Priest Rogue Shaman Warlock Warrior)).sort.freeze
   WOW_RACES   = (['Blood Elf', 'Night Elf'] + %w(Draenei Dwarf Gnome Human Orc Tauren Troll Undead)).sort.freeze
@@ -23,6 +23,12 @@ class Applicant < ActiveRecord::Base
   belongs_to :server
 
   alias_method :current_server, :server
-  
+
   # System Info
+
+  def to_s
+    return '' unless self.character_name.present? and self.character_class.present? and self.created_at.present?
+
+    "#{self.character_name} - #{self.character_class} - #{self.created_at.to_date.to_s(:db)}"
+  end
 end

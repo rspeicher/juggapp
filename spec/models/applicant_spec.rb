@@ -10,6 +10,10 @@ describe Applicant do
     @applicant.should be_valid
   end
 
+  it "should have a custom to_s" do
+    @applicant.to_s.should eql("#{@applicant.character_name} - #{@applicant.character_class} - #{@applicant.created_at.to_date.to_s(:db)}")
+  end
+
   context "mass assignment" do
   end
 
