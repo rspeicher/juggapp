@@ -8,9 +8,9 @@ class User < InvisionBridge::User::Base
   GROUP_APPLICANTS = 9
 
   has_many :applicants
-
-  def is_validated?
-    self.member_group_id != GROUP_VALIDATING and self.member_group_id != GROUP_BANNED and self.member_group_id != GROUP_ANONYMOUS
+  
+  def is_validating?
+    self.member_group_id == GROUP_VALIDATING
   end
 
   def is_admin?
