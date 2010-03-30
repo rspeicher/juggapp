@@ -3,5 +3,5 @@
   Your application has not yet been posted for review. You can
   = link_to('revise it', edit_application_path(app.id))
   or
-  = link_to('post it for review', '#') + "."
+  = link_to_remote('post it for review', :url => post_application_url(app)) + "."
   Once an application is posted you will not be able to edit it.
