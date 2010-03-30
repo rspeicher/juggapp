@@ -9,7 +9,7 @@ function populateArmory() {
     // }
 
     cserver = escape($('#applicant_server_id :selected').text());
-    cname   = escape($('#applicant_character_name').val());
+    cname   = $('#applicant_character_name').val();
 
     $('#applicant_armory_link').val("http://www.wowarmory.com/character-sheet.xml?r=" + cserver + "&n=" + cname);
     $('#applicant_armory_link').effect('highlight', {}, 1500);
