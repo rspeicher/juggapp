@@ -124,7 +124,7 @@ describe ApplicantsController, "POST post" do
       before(:each) do
         login(:validating_user)
 
-        get :post, :id => '1'
+        post :post, :id => '1'
       end
 
       it { should set_the_flash.to(/cannot post an application while your account is validating/) }
@@ -140,7 +140,7 @@ describe ApplicantsController, "POST post" do
         server.expects(:call).with('postTopic', anything()).returns({}) # TODO: Response value
         XMLRPC::Client.stubs(:new2).returns(server)
 
-        get :post, :id => '1'
+        post :post, :id => '1'
       end
 
       it { should set_the_flash.to(/successfully posted for review/) }
@@ -154,7 +154,7 @@ describe ApplicantsController, "POST post" do
 
       @app.status = 'posted'
 
-      get :post, :id => '1'
+      post :post, :id => '1'
     end
 
     it { should set_the_flash.to("Only pending applications may be posted.") }
