@@ -18,28 +18,28 @@ ActiveRecord::Schema.define(:version => 20100218095445) do
     t.string   "name"
     t.integer  "age"
     t.string   "time_zone"
-    t.time     "start_sunday",        :default => '2000-01-01 00:00:00'
-    t.time     "end_sunday",          :default => '2000-01-01 00:00:00'
-    t.time     "start_monday",        :default => '2000-01-01 00:00:00'
-    t.time     "end_monday",          :default => '2000-01-01 00:00:00'
-    t.time     "start_tuesday",       :default => '2000-01-01 00:00:00'
-    t.time     "end_tuesday",         :default => '2000-01-01 00:00:00'
-    t.time     "start_wednesday",     :default => '2000-01-01 00:00:00'
-    t.time     "end_wednesday",       :default => '2000-01-01 00:00:00'
-    t.time     "start_thursday",      :default => '2000-01-01 00:00:00'
-    t.time     "end_thursday",        :default => '2000-01-01 00:00:00'
-    t.time     "start_friday",        :default => '2000-01-01 00:00:00'
-    t.time     "end_friday",          :default => '2000-01-01 00:00:00'
-    t.time     "start_saturday",      :default => '2000-01-01 00:00:00'
-    t.time     "end_saturday",        :default => '2000-01-01 00:00:00'
+    t.time     "start_sunday"
+    t.time     "end_sunday"
+    t.time     "start_monday"
+    t.time     "end_monday"
+    t.time     "start_tuesday"
+    t.time     "end_tuesday"
+    t.time     "start_wednesday"
+    t.time     "end_wednesday"
+    t.time     "start_thursday"
+    t.time     "end_thursday"
+    t.time     "start_friday"
+    t.time     "end_friday"
+    t.time     "start_saturday"
+    t.time     "end_saturday"
     t.text     "known_members"
     t.text     "future_commitments"
     t.text     "reasons_for_joining"
-    t.integer  "server_id",                                              :null => false
-    t.string   "character_name",                                         :null => false
-    t.string   "character_class",                                        :null => false
+    t.integer  "server_id",                                  :null => false
+    t.string   "character_name",                             :null => false
+    t.string   "character_class",                            :null => false
     t.string   "character_race"
-    t.string   "armory_link",                                            :null => false
+    t.string   "armory_link",                                :null => false
     t.text     "previous_guilds"
     t.text     "reasons_for_leaving"
     t.text     "pve_experience"

@@ -10,8 +10,8 @@ class CreateApplicants < ActiveRecord::Migration
       t.integer :age
       t.string :time_zone
       %w(sunday monday tuesday wednesday thursday friday saturday).each do |day|
-        t.time "start_#{day}", :default => '00:00'
-        t.time "end_#{day}", :default => '00:00'
+        t.time "start_#{day}"
+        t.time "end_#{day}"
       end
       t.text :known_members
       t.text :future_commitments
