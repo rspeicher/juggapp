@@ -2,7 +2,7 @@
   = form.input :name, :label => 'First name', :hint => 'Your real first name'
   = form.input :age
   = form.input :time_zone, :selected => "Central Time (US & Canada)"
-  - form.inputs :name => 'Play Times', :class => 'playtimes' do
+  - form.inputs :name => 'Play times', :class => 'playtimes' do
     - %w(sunday monday tuesday wednesday thursday friday saturday).each do |day|
       .playtimes
         = form.input "start_#{day}", :as => :string, :label => '', :required => false, :input_html => {:size => 8}
@@ -19,7 +19,6 @@
   = form.input :character_class, :as => :select, :collection => Applicant::WOW_CLASSES, :label => 'Class', :required => true
   = form.input :character_race, :as => :select, :collection => Applicant::WOW_RACES, :label => 'Current race', :required => true
   = form.input :armory_link, :label => "Provide a link to your character's Armory profile", :required => true, :input_html => {:size => 92}, :hint => "Populated automatically. Change as needed."
-  = form.input :original_owner, :label => 'Are you the original owner of this character?'
   = form.input :previous_guilds, :label => 'Describe, in detail, your entire guild history across all of your characters, and your reasons for leaving each guild', :input_html => {:size => '90x15'}
   = form.input :pve_experience, :label => 'Describe your previous PvE experience', :input_html => {:size => '90x15'}
   = form.input :pvp_experience, :label => 'Describe your previous PvP experience', :input_html => {:size => '90x15'}

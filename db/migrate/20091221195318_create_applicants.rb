@@ -23,7 +23,6 @@ class CreateApplicants < ActiveRecord::Migration
       t.string :character_class, :null => false
       t.string :character_race
       t.string :armory_link, :null => false
-      t.boolean :original_owner
       t.text :previous_guilds
       t.text :reasons_for_leaving
       t.text :pve_experience
