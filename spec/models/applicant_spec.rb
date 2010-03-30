@@ -55,3 +55,41 @@ describe Applicant do
   # it { should allow_value("http://wowarmory.com/character-sheet.xml?r=Mal%27Ganis&n=Tsigo").for(:armory_link) }
   # it { should_not allow_value("http://www.google.com/").for(:armory_link) }
 end
+
+describe Applicant, "time parsing" do
+  def format_time(time)
+    time.strftime("%H:%M")
+  end
+
+  before(:each) do
+    @applicant = Factory(:applicant)
+  end
+
+  it "should parse '1:30 pm'" do
+    @applicant.start_monday = '1:30 pm'
+    format_time(@applicant.start_monday).should eql('13:30')
+  end
+
+  it "should parse '10:25 AM'" do
+    @applicant.start_monday = '10:25 AM'
+    format_time(@applicant.start_monday).should eql('10:25')
+  end
+
+  it "should parse '4-5am'" do
+    @applicant.start_monday = '4-5am'
+    format_time(@applicant.start_monday).should satisfy { |v|
+      (v == '04:00') or (v == '05:00') # Not sure I care which, if they enter something this stupid.
+    }
+  end
+
+  it "should parse '4pm'" do
+    @applicant.start_monday = '4pm'
+    format_time(@applicant.start_monday).should eql('16:00')
+  end
+
+  # Invalid values parse to 00:00. Maybe that's ok?
+  # it "should not parse 'whenever'" do
+  #   @applicant.start_monday = 'whenever'
+  #   format_time(@applicant.start_monday).should be_nil
+  # end
+end
