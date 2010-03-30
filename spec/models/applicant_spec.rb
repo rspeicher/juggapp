@@ -15,6 +15,12 @@ describe Applicant do
   end
 
   context "mass assignment" do
+    it { should_not allow_mass_assignment_of(:id) }
+    it { should_not allow_mass_assignment_of(:status) }
+    it { should allow_mass_assignment_of(:user_id) }
+    it { should_not allow_mass_assignment_of(:topic_id) }
+    it { should_not allow_mass_assignment_of(:created_at) }
+    it { should_not allow_mass_assignment_of(:updated_at) }
   end
 
   context "validations" do

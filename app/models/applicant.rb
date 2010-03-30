@@ -1,4 +1,6 @@
 class Applicant < ActiveRecord::Base
+  attr_protected :id, :status, :topic_id, :created_at, :updated_at
+
   # Base
   validates_inclusion_of :status, :in => %w(pending posted denied accepted guilded waiting)
   validates_presence_of :user_id
