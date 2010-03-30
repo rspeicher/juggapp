@@ -21,6 +21,10 @@ class ApplicantsController < ApplicationController
   def edit
     @applicant = @parent.applicants.find(params[:id])
 
+    unless @applicant.status == 'pending'
+      flash.now[:error] = "This application has already been posted for review. Changes made here will not be reflected on the posted application."
+    end
+
     respond_to do |wants|
       wants.html
     end

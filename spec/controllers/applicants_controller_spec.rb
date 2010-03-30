@@ -40,17 +40,31 @@ end
 describe ApplicantsController, "GET edit" do
   before(:each) do
     login(:user)
-    @app = Factory(:applicant)
-    Applicant.expects(:find).with('1', anything()).returns(@app)
+  end
+  
+  context "pending application" do
+    before(:each) do
+      @app = Factory(:applicant)
+      Applicant.expects(:find).with('1', anything()).returns(@app)
+      get :edit, :id => '1'
+    end
+
+    it { should respond_with(:success) }
+    it { should assign_to(:applicant).with(@app) }
+    it { should render_template(:edit) }    
   end
 
-  before(:each) do
-    get :edit, :id => '1'
+  context "non-pending application" do
+    before(:each) do
+      @app = Factory(:applicant, :status => 'posted')
+      Applicant.expects(:find).with('1', anything()).returns(@app)
+      get :edit, :id => '1'
+    end
+    
+    it { should set_the_flash.to(/has already been posted/) }
+    it { should assign_to(:applicant).with(@app) }
+    it { should render_template(:edit) }
   end
-
-  it { should respond_with(:success) }
-  it { should assign_to(:applicant).with(@app) }
-  it { should render_template(:edit) }
 end
 
 describe ApplicantsController, "POST create" do
