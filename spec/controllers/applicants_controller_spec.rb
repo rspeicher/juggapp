@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe ApplicantsController, "routing" do
-  it { should route(:get, '/applications'       ).to(:controller => :applicants, :action => :index) }
-  # it { should route(:get, '/applications/1'     ).to(:controller => :applicants, :action => :show, :id => 1) }
-  it { should route(:get, '/applications/new'   ).to(:controller => :applicants, :action => :new) }
-  it { should route(:get, '/applications/1/edit').to(:controller => :applicants, :action => :edit, :id => 1) }
-  it { should route(:post, '/applications'      ).to(:controller => :applicants, :action => :create) }
-  it { should route(:put, '/applications/1'     ).to(:controller => :applicants, :action => :update, :id => 1) }
+  it { should route(:get, '/applications'        ).to(:controller => :applicants, :action => :index) }
+  it { should route(:get, '/applications/new'    ).to(:controller => :applicants, :action => :new) }
+  it { should route(:get, '/applications/1/edit' ).to(:controller => :applicants, :action => :edit, :id => 1) }
+  it { should route(:post, '/applications'       ).to(:controller => :applicants, :action => :create) }
+  it { should route(:put, '/applications/1'      ).to(:controller => :applicants, :action => :update, :id => 1) }
+  it { should route(:post, '/applications/1/post').to(:controller => :applicants, :action => :post, :id => 1) }
 end
 
 describe ApplicantsController, "GET index" do
