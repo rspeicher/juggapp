@@ -38,7 +38,7 @@ class ApplicantsController < ApplicationController
         flash[:message] = 'Application submitted successfully.'
         wants.html { redirect_to root_path }
       else
-        # FIXME: Not getting an error message here
+        flash.now[:error] = "There was a problem with your application. Please see the error messages below."
         wants.html { render :action => "new" }
       end
     end
@@ -52,7 +52,7 @@ class ApplicantsController < ApplicationController
         flash[:success] = 'Application updated successfully.'
         wants.html { redirect_to root_path }
       else
-        # FIXME: Not getting an error message here
+        flash.now[:error] = "There was a problem with your application. Please see the error messages below."
         wants.html { render :action => 'edit' }
       end
     end
@@ -79,7 +79,13 @@ class ApplicantsController < ApplicationController
             :post_content => render_to_string(:layout => false)
           })
 
-          flash[:success] = "Your application has been successfully posted for review."
+          if response['result'].present? and response['result'] == 'success' and response['topic_id'].present?
+            # Got a response, update the topic_id value with the value returned from IPB.
+            @applicant.update_attribute(:topic_id, response['topic_id'])
+            flash[:success] = "Your application has been successfully posted for review."
+          else
+            flash[:error] = "Your application could not be posted at this time."
+          end
         end
     else
       flash[:error] = "Only pending applications may be posted."

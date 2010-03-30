@@ -41,7 +41,7 @@ describe ApplicantsController, "GET edit" do
   before(:each) do
     login(:user)
   end
-  
+
   context "pending application" do
     before(:each) do
       @app = Factory(:applicant)
@@ -51,7 +51,7 @@ describe ApplicantsController, "GET edit" do
 
     it { should respond_with(:success) }
     it { should assign_to(:applicant).with(@app) }
-    it { should render_template(:edit) }    
+    it { should render_template(:edit) }
   end
 
   context "non-pending application" do
@@ -60,7 +60,7 @@ describe ApplicantsController, "GET edit" do
       Applicant.expects(:find).with('1', anything()).returns(@app)
       get :edit, :id => '1'
     end
-    
+
     it { should set_the_flash.to(/has already been posted/) }
     it { should assign_to(:applicant).with(@app) }
     it { should render_template(:edit) }
@@ -90,7 +90,7 @@ describe ApplicantsController, "POST create" do
       post :create, :applicant => {}
     end
 
-    # it { should set_the_flash.to(/Application failed/) } # TODO: Error message?
+    it { should set_the_flash.to(/problem with your application/) }
     it { should render_template(:new) }
   end
 end
@@ -118,7 +118,7 @@ describe ApplicantsController, "PUT update" do
       put :update, :id => '1', :applicant => {}
     end
 
-    # it { should set_the_flash.to(/Application failed/) } # TODO: Error message?
+    it { should set_the_flash.to(/problem with your application/) }
     it { should render_template(:edit) }
   end
 end
@@ -146,19 +146,41 @@ describe ApplicantsController, "POST post" do
     end
 
     context "validated user" do
-      before(:each) do
-        login(:user)
+      context "successful RPC call" do
+        before(:each) do
+          login(:user)
 
-        # Stub out XMLRPC
-        server = mock()
-        server.expects(:call).with('postTopic', anything()).returns({}) # TODO: Response value
-        XMLRPC::Client.stubs(:new2).returns(server)
+          # Stub out XMLRPC
+          server = mock()
+          server.expects(:call).with('postTopic', anything()).returns({"result" => "success", "topic_id" => 12345})
+          XMLRPC::Client.stubs(:new2).returns(server)
 
-        post :post, :id => '1'
+          @app.expects(:update_attribute).with(:topic_id, 12345).once.returns(true)
+
+          post :post, :id => '1'
+        end
+
+        it { should set_the_flash.to(/successfully posted for review/) }
+        it { should redirect_to(root_path) }
       end
 
-      it { should set_the_flash.to(/successfully posted for review/) }
-      it { should redirect_to(root_path) }
+      context "unsuccessful RPC call" do
+        before(:each) do
+          login(:user)
+
+          # Stub out XMLRPC
+          server = mock()
+          server.expects(:call).with('postTopic', anything()).returns({}) # TODO: Failure response?
+          XMLRPC::Client.stubs(:new2).returns(server)
+
+          @app.expects(:update_attribute).never
+
+          post :post, :id => '1'
+        end
+
+        it { should set_the_flash.to(/could not be posted/) }
+        it { should redirect_to(root_path) }
+      end
     end
   end
 

@@ -1,0 +1,71 @@
+[b][size="4"]Personal Info[/size][/b]
+
+[b]First name[/b]
+<%= h(@applicant.name) %>
+
+[b]Age[/b]
+<%= h(@applicant.age) %>
+
+[b]Time zone[/b]
+<%= h(@applicant.time_zone) %>
+
+[b]Play times[/b]
+<%- %w(sunday monday tuesday wednesday thursday friday saturday).each do |day| -%>
+<%= h(@applicant.attributes["start_#{day}"].strftime("%I:%M %p")) %> until <%= h(@applicant.attributes["end_#{day}"].strftime("%I:%M %p")) %> CST <%= day.titlecase %>
+<%- end -%>
+
+[b]List any current Juggernaut members you know and how you know them[/b]
+<%= h(@applicant.known_members) %>
+
+[b]List any current or near future commitments you have that might affect your raid attendance[/b]
+<%= h(@applicant.future_commitments) %>
+
+[b]Why do you want to join Juggernaut?[/b]
+<%= h(@applicant.reasons_for_joining) %>
+
+[b][size="4"]Character Information[/size][/b]
+
+[b]Current server[/b]
+<%= h(@applicant.server.name) %>
+
+[b]Current name[/b]
+<%= h(@applicant.character_name) %>
+
+[b]Class[/b]
+<%= h(@applicant.character_class) %>
+
+[b]Current race[/b]
+<%= h(@applicant.character_race) %>
+
+[b]Armory link[/b]
+[url="<%= @applicant.armory_link %>"]<%= h(@applicant.armory_link) %>[/url]
+
+[b]Describe, in detail, your entire guild history across all of your characters, and your reasons for leaving each guild[/b]
+<%= h(@applicant.previous_guilds) %>
+
+[b]Describe your previous PvE experience[/b]
+<%= h(@applicant.pve_experience) %>
+
+[b]Describe your previous PvP experience[/b]
+<%= h(@applicant.pvp_experience) %>
+
+[b]Provide a link to a screenshot of your interface during a raid[/b]
+[img]<%= @applicant.screenshot_link %>[/img]
+
+[b][size="4"]System Information[/size][/b]
+
+[b]What type of connection do you normally play on?[/b]
+<%= h(@applicant.connection_type) %>
+
+[b]Do you have a microphone?[/b]
+<%= @applicant.has_microphone? ? 'Yes' : 'No' %>
+
+[b]Do you have Ventrilo installed on your computer?[/b]
+<%= @applicant.has_ventrilo? ? 'Yes' : 'No' %>
+
+[b]Do you talk on Ventrilo?[/b]
+<%= @applicant.uses_ventrilo? ? 'Yes' : 'No' %>
+
+[b][size="4"]Additional Comments[/size][/b]
+
+<%= h(@applicant.comments) %>
