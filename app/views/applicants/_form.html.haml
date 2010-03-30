@@ -14,7 +14,7 @@
   = form.input :reasons_for_joining, :label => 'Why do you want to join Juggernaut?', :input_html => {:size => '90x15'}
 
 - form.inputs 'Character Information' do
-  = form.input :server, :label => 'Current server', :required => true
+  = form.input :server, :label => 'Current server', :required => true, :hint => "Note: US servers only."
   = form.input :character_name, :label => 'Current name', :required => true
   = form.input :character_class, :as => :select, :collection => Applicant::WOW_CLASSES, :label => 'Class', :required => true
   = form.input :character_race, :as => :select, :collection => Applicant::WOW_RACES, :label => 'Current race', :required => true
