@@ -17,11 +17,11 @@
         %span This site makes extensive use of JavaScript. Please enable it to continue.
     #ipbwrapper
       %h1= yield :page_title
-      
+
       %p#content_jump
         %a#top{ :name => 'top' }
         %a{ :href => '#j_content', :title => 'Jump to content', :accesskey => 'm' }Jump to content
-        
+
       - if admin?
         #admin_bar
           %p.right= link_to('Log in to your Admin CP &gt;', 'http://www.juggernautguild.com/a__dmin/index.php')
@@ -56,10 +56,10 @@
                   %li#nav_home= link_to(content_tag(:span, 'News'), 'http://www.juggernautguild.com/', :title => 'Homepage', :rel => 'home')
                   %li#nav_discussion= link_to(content_tag(:span, 'Forums'), 'http://www.juggernautguild.com/index', :title => 'Go to Forums')
                   %li#nav_about= link_to(content_tag(:span, 'About Us'), 'http://www.juggernautguild.com/topic/13476-about-us/')
-                  %li#nav_joining= link_to(content_tag(:span, 'Joining'), 'http://www.juggernautguild.com/topic/13475-joining/')
+                  %li#nav_joining.active= link_to(content_tag(:span, 'Joining'), 'http://www.juggernautguild.com/topic/13475-joining/')
                   %li#nav_roster= link_to(content_tag(:span, 'Roster'), 'http://www.wowarmory.com/guild-info.xml?r=Mal%27Ganis&amp;gn=Juggernaut')
                   %li#nav_logs= link_to(content_tag(:span, 'Logs'), 'http://www.worldoflogs.com/guilds/180/')
-                  %li#nav_lf.active= link_to(content_tag(:span, 'LF'), 'http://lf.juggernautguild.com/')
+                  %li#nav_lf= link_to(content_tag(:span, 'LF'), 'http://lf.juggernautguild.com/')
                   %li#nav_calendar= link_to(content_tag(:span, 'Calendar'), 'http://www.juggernautguild.com/calendar/', :title => 'Go to Calendar')
                   %li#nav_search= link_to(content_tag(:span, 'Search'), 'http://www.juggernautguild.com/index.php?app=core&amp;module=search', :title => '', :accesskey => '4', :rel => 'search')
       %div.content.clear
@@ -71,36 +71,29 @@
                 %ul#breadcrumb.left
                   = yield :breadcrumb
                 %ul#section_links.right
-                  / %li.first= link_to 'Index', root_path, :class => ( current_page?(root_path) ) ? 'selected' : ''
-                  / %li= link_to_controller(Achievement)
-                  / %li= link_to_controller(Member)
-                  / %li= link_to_controller(Raid, :admin_only => true)
-                  / %li= link_to_controller(Item)
-                  / %li= link_to_controller(Loot, :admin_only => true)
-                  / %li.last= link_to_controller(Wishlist, :admin_only => true)
                 %br.clear
         #content.clear
           - if flash[:error]
             %div.message.error= flash[:error]
           - if flash[:message]
             %div.message.success= flash[:message]
-            
+
           %h2.hide= controller.controller_name.titlecase
-          
+
           #board_index.clearfix
             #categories.hover_rows.no_sidebar.clearfix
               = yield
-          
+
           / %ul#stat_links.filter_bar.rounded
-          
+
           #board_statistics.statistics.general_box.clearfix.hide
             #stats
               %h2
-          
+
           %br.clear
-          
+
           #footer_utilities.clearfix.clear.hide
-          
+
           #board_footer
             %ul#utility_links.left
               %li= link_to('Back to top', '#top', :title => 'Go to top')
@@ -110,5 +103,5 @@
               %br
               = "Hosted by #{link_to('NetworkRedux', 'http://www.networkredux.com/')}"
             %br.clear
-            
+
           #stats_div
