@@ -74,7 +74,7 @@ class ApplicantsController < ApplicationController
             :api_key      => Juggernaut[:ipb_api_key],
             :member_field => 'id',
             :member_key   => current_user.id,
-            :forum_id     => 10,
+            :forum_id     => 6,
             :topic_title  => @applicant.to_s,
             :post_content => render_to_string(:layout => false)
           })
