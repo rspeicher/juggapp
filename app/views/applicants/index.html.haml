@@ -4,7 +4,7 @@
   = render :partial => 'shared/maintitle', :object => "Applications"
   - @applicants.each do |app|
     %div{ :class => "character_row status_#{app.status}" }
-      = image_tag(character_icon(app.character_race, app.character_class), :alt => "Icon", :class => 'character_image')
+      = image_tag(class_icon(app.character_class), :alt => "Icon", :class => 'character_image')
       %div.application_status
         = image_tag("status_#{app.status}.png", :alt => app.status.titlecase)
       %div.application_info

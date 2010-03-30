@@ -1,4 +1,10 @@
 module ApplicantsHelper
+  def class_icon(klass)
+    klass.gsub!(' ', '')
+    
+    "classes/#{klass}.png"
+  end
+  
   def character_icon(race, klass)
     race.downcase!
     klass.downcase!

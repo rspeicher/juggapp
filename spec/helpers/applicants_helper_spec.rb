@@ -1,6 +1,12 @@
 require 'spec_helper'
 include ApplicantsHelper
 
+describe ApplicantsHelper, "class_icon" do
+  it "should return the correct image for 'Death Knight'" do
+    class_icon('Death Knight').should eql('classes/DeathKnight.png')
+  end
+end
+
 describe ApplicantsHelper, "character_icon" do
   it "should return a URL string" do
     character_icon('Undead', 'Priest').should match(/wowarmory\.com/)
