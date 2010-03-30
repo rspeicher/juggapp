@@ -80,8 +80,7 @@ class ApplicantsController < ApplicationController
           })
 
           if response['result'].present? and response['result'] == 'success' and response['topic_id'].present?
-            # Got a response, update the topic_id value with the value returned from IPB.
-            @applicant.update_attribute(:topic_id, response['topic_id'])
+            @applicant.posted!(response['topic_id'])
             flash[:success] = "Your application has been successfully posted for review."
           else
             flash[:error] = "Your application could not be posted at this time."

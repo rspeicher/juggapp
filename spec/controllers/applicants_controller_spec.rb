@@ -155,7 +155,7 @@ describe ApplicantsController, "POST post" do
           server.expects(:call).with('postTopic', anything()).returns({"result" => "success", "topic_id" => 12345})
           XMLRPC::Client.stubs(:new2).returns(server)
 
-          @app.expects(:update_attribute).with(:topic_id, 12345).once.returns(true)
+          @app.expects(:posted!).with(12345).once.returns(true)
 
           post :post, :id => '1'
         end

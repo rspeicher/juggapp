@@ -55,11 +55,35 @@ describe Applicant do
   end
 
 
-  # it { should allow_value("Mal'Ganis").for(:character_server) }
-  # it { should_not allow_value('Invalid').for(:character_server) }
   # it { should allow_value("http://www.wowarmory.com/character-sheet.xml?r=Mal%27Ganis&n=Tsigo").for(:armory_link) }
   # it { should allow_value("http://wowarmory.com/character-sheet.xml?r=Mal%27Ganis&n=Tsigo").for(:armory_link) }
   # it { should_not allow_value("http://www.google.com/").for(:armory_link) }
+end
+
+describe Applicant, "#posted!" do
+  before(:each) do
+    @applicant = Factory(:applicant)
+  end
+
+  it "should set the value for topic_id" do
+    lambda { @applicant.posted!(12345) }.should change(@applicant, :topic_id).from(nil).to(12345)
+  end
+
+  it "should change the status to 'posted'" do
+    lambda { @applicant.posted!(12345) }.should change(@applicant, :status).from('pending').to('posted')
+  end
+
+  it "should save the record" do
+    @applicant.expects(:save)
+    @applicant.posted!(12345)
+  end
+
+  it "should do nothing unless the application is pending" do
+    @applicant.status = 'guilded'
+
+    @applicant.expects(:save).never
+    @applicant.posted!(12345)
+  end
 end
 
 describe Applicant, "time parsing" do

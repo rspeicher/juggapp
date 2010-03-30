@@ -33,4 +33,12 @@ class Applicant < ActiveRecord::Base
 
     "#{self.character_name} - #{self.character_class} - #{self.created_at.to_date.to_s(:db)}"
   end
+
+  def posted!(topic_id)
+    return unless self.status == 'pending'
+
+    self.topic_id = topic_id
+    self.status = 'posted'
+    self.save
+  end
 end
