@@ -11,7 +11,7 @@
 
 [b]Play times[/b]
 <%- %w(sunday monday tuesday wednesday thursday friday saturday).each do |day| -%>
-<%= @applicant.attributes["start_#{day}"].strftime("%I:%M %p") %> until <%= @applicant.attributes["end_#{day}"].strftime("%I:%M %p") %> CST <%= day.titlecase %>
+<%= play_time_for_day(@applicant, day) %>
 <%- end -%>
 
 [b]List any current Juggernaut members you know and how you know them[/b]

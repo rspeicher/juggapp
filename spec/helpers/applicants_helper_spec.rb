@@ -20,3 +20,15 @@ describe ApplicantsHelper, "character_icon" do
     character_icon('Something', 'Priest').should match(/0-\d-5\.gif$/)
   end
 end
+
+describe ApplicantsHelper, "play_time_for_day" do
+  it "should return a formatted string when a given day has valid play times" do
+    @app = Factory(:applicant, :start_sunday => '11am', :end_sunday => '1pm')
+    play_time_for_day(@app, 'Sunday').should eql("11:00 AM until 01:00 PM CST Sunday")
+  end
+
+  it "should return a formatted string when a given day has invalid play times" do
+    @app = Factory(:applicant)
+    play_time_for_day(@app, 'Sunday').should eql("N/A until N/A CST Sunday")
+  end
+end

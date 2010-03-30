@@ -1,10 +1,10 @@
 module ApplicantsHelper
   def class_icon(klass)
     klass.gsub!(' ', '')
-    
+
     "classes/#{klass}.png"
   end
-  
+
   def character_icon(race, klass)
     race.downcase!
     klass.downcase!
@@ -71,5 +71,17 @@ module ApplicantsHelper
     str += '.gif'
 
     str
+  end
+
+  def play_time_for_day(app, day)
+    day.downcase!
+
+    format = "%I:%M %p"
+    pstart = app.attributes["start_#{day}"].strftime(format)
+    pend   = app.attributes["end_#{day}"].strftime(format)
+
+    "#{pstart} until #{pend} CST #{day.titlecase}"
+  rescue
+    "N/A until N/A CST #{day.titlecase}"
   end
 end
