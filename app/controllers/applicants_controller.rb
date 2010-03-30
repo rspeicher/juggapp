@@ -54,6 +54,38 @@ class ApplicantsController < ApplicationController
     end
   end
 
+  def post
+    require 'xmlrpc/client'
+
+    @applicant = @parent.applicants.find(params[:id])
+
+    if @applicant.status == 'pending'
+        if current_user.is_validating?
+          flash[:error] = "You cannot post an application while your account is validating. Please confirm the e-mail validation first."
+        else
+          server = XMLRPC::Client.new2('http://www.juggernautguild.com/interface/board/')
+
+          response = server.call('postTopic', {
+            :api_module   => 'ipb',
+            :api_key      => Juggernaut[:ipb_api_key],
+            :member_field => 'id',
+            :member_key   => current_user.id,
+            :forum_id     => 10,
+            :topic_title  => @applicant.to_s,
+            :post_content => render_to_string(:layout => false)
+          })
+
+          flash[:success] = "Your application has been successfully posted for review."
+        end
+    else
+      flash[:error] = "Only pending applications may be posted."
+    end
+
+    respond_to do |wants|
+      wants.html { redirect_to root_path }
+    end
+  end
+
   protected
     def find_parent
       @parent = @user = current_user
