@@ -93,6 +93,41 @@ describe Applicant, "#posted!" do
   end
 end
 
+describe Applicant, "#update_status_from_board" do
+  include XMLRPCHelper
+
+  def check_status(response_name, status_before, status_after)
+    applicant = Factory(:applicant, :status => status_before, :topic_id => 12345)
+    response = XMLRPCHelper::Response[response_name][0]
+
+    lambda { applicant.update_status_from_board!(response) }.should change(applicant, :status).from(status_before).to(status_after)
+  end
+
+  it "should return nil if the application hasn't yet been posted" do
+    Factory(:applicant, :status => 'pending', :topic_id => 12345).update_status_from_board!({'topic_id' => '12345'}).should be_nil
+  end
+
+  it "should return nil if the topic_id doesn't match the application's topic_id" do
+    Factory(:applicant, :status => 'posted', :topic_id => 12345).update_status_from_board!({'topic_id' => '1'}).should be_nil
+  end
+
+  it "should change an app from 'posted' to 'accepted' if the topic is pinned" do
+    check_status(:fetchTopics_review, 'posted', 'accepted')
+  end
+
+  it "should change an app from 'posted' to 'denied' if the topic is in the Declined forum" do
+    check_status(:fetchTopics_declined, 'posted', 'denied')
+  end
+
+  it "should change an app from 'posted' to 'waiting' if the topic is in the Waiting forum" do
+    check_status(:fetchTopics_waiting, 'posted', 'waiting')
+  end
+
+  it "should change an app from 'accepted' to 'guilded' if the topic is in the Archive forum" do
+    check_status(:fetchTopics_archives, 'accepted', 'guilded')
+  end
+end
+
 describe Applicant, "time parsing" do
   def format_time(time)
     time.strftime("%H:%M")

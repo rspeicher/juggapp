@@ -48,4 +48,29 @@ class Applicant < ActiveRecord::Base
     self.status = 'posted'
     self.save
   end
+
+  # Given a +Hash+ representing a response from +XMLRPC+, update the +status+ attribute depending on several factors.
+  #
+  # - A pinned topic in forum 6 (Applicant Review) is considered 'accepted'
+  # - A topic in forum 21 (Archives) is considered 'guilded'
+  # - A topic in forum 45 (Declined) is considered 'declined'
+  # - A topic in forum 44 (Waiting) is considered 'waiting'
+  def update_status_from_board!(response)
+    return if self.status == 'pending'
+
+    response.symbolize_keys!
+    return unless response[:topic_id].present? and response[:topic_id].to_i == self.topic_id
+
+    if response[:pinned].to_i == 1 and response[:forum_id].to_i == 6
+      self.status = 'accepted'
+    elsif response[:forum_id].to_i == 45
+      self.status = 'denied'
+    elsif response[:forum_id].to_i == 44
+      self.status = 'waiting'
+    elsif response[:forum_id].to_i == 21
+      self.status = 'guilded'
+    end
+
+    self.save
+  end
 end
