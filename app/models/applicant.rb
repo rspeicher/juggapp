@@ -1,6 +1,13 @@
 class Applicant < ActiveRecord::Base
   attr_protected :id, :status, :topic_id, :created_at, :updated_at
 
+  named_scope :pending,  :conditions => { :status => 'pending' }
+  named_scope :posted,   :conditions => { :status => 'posted' }
+  named_scope :denied,   :conditions => { :status => 'denied' }
+  named_scope :accepted, :conditions => { :status => 'accepted' }
+  named_scope :guilded,  :conditions => { :status => 'guilded' }
+  named_scope :waiting,  :conditions => { :status => 'waiting' }
+
   # Base
   validates_inclusion_of :status, :in => %w(pending posted denied accepted guilded waiting)
   validates_presence_of :user_id

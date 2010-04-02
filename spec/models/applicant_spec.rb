@@ -54,6 +54,13 @@ describe Applicant do
     it { should belong_to(:user) }
   end
 
+  # FIXME: Deprecated?
+  # it { should have_named_scope(:pending) }
+  # it { should have_named_scope(:posted) }
+  # it { should have_named_scope(:denied) }
+  # it { should have_named_scope(:accepted) }
+  # it { should have_named_scope(:guilded) }
+  # it { should have_named_scope(:waiting) }
 
   # it { should allow_value("http://www.wowarmory.com/character-sheet.xml?r=Mal%27Ganis&n=Tsigo").for(:armory_link) }
   # it { should allow_value("http://wowarmory.com/character-sheet.xml?r=Mal%27Ganis&n=Tsigo").for(:armory_link) }
