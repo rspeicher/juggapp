@@ -5,6 +5,18 @@ require File.expand_path(File.join(File.dirname(__FILE__),'..','..','config','en
 
 DataMapper.setup(:default, 'mysql://localhost/juggernaut_forum_development')
 
+class IPBTopic
+  include DataMapper::Resource
+
+  storage_names[:default] = 'ibf_topics'
+
+  property :id, Serial
+  property :title, String
+  property :description, String
+  property :forum_id, Integer
+  property :pinned, Boolean
+end
+
 class OldApplicant
   include DataMapper::Resource
 
