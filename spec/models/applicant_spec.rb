@@ -93,7 +93,7 @@ describe Applicant, "#posted!" do
   end
 end
 
-describe Applicant, "#update_status_from_board" do
+describe Applicant, "#update_status_from_board!" do
   include XMLRPCHelper
 
   def check_status(response_name, status_before, status_after)

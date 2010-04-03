@@ -124,11 +124,8 @@ describe ApplicantsController, "PUT update" do
 end
 
 describe ApplicantsController, "POST post" do
-  before(:all) do
-    require 'xmlrpc/client'
-  end
-
   before(:each) do
+    require 'xmlrpc/client'
     @app = Factory(:applicant)
     Applicant.expects(:find).with('1', anything()).once.returns(@app)
   end
