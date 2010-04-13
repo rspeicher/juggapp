@@ -130,8 +130,8 @@ describe ApplicantsController, "POST post" do
     Applicant.expects(:find).with('1', anything()).once.returns(@app)
   end
 
-  context "pending application" do
-    context "validating user" do
+  context "with a pending application" do
+    context "as a validating user" do
       before(:each) do
         login(:validating_user)
 
@@ -142,8 +142,19 @@ describe ApplicantsController, "POST post" do
       it { should redirect_to(root_path) }
     end
 
-    context "validated user" do
-      context "successful RPC call" do
+    context "as a validated user" do
+      context "with one application already posted" do
+        before(:each) do
+          login(:user)
+          Factory(:applicant, :user_id => User.last.id, :status => 'posted') # FIXME: User.last.id feels hacky.
+          post :post, :id => '1'
+        end
+
+        it { should set_the_flash.to(/cannot have more than one application posted at a time/) }
+        it { should redirect_to(root_path) }
+      end
+
+      context "making successful RPC call" do
         before(:each) do
           login(:user)
 
@@ -161,7 +172,7 @@ describe ApplicantsController, "POST post" do
         it { should redirect_to(root_path) }
       end
 
-      context "unsuccessful RPC call" do
+      context "making unsuccessful RPC call" do
         before(:each) do
           login(:user)
 
@@ -181,7 +192,7 @@ describe ApplicantsController, "POST post" do
     end
   end
 
-  context "non-pending application" do
+  context "with a non-pending application" do
     before(:each) do
       login(:user)
 

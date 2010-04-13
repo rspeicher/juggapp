@@ -64,8 +64,10 @@ class ApplicantsController < ApplicationController
     @applicant = @parent.applicants.find(params[:id])
 
     if @applicant.status == 'pending'
-        if current_user.is_validating?
+        if @parent.is_validating?
           flash[:error] = "You cannot post an application while your account is validating. Please confirm the e-mail validation first."
+        elsif @parent.applicants.posted.count >= 1
+          flash[:error] = "You cannot have more than one application posted at a time."
         else
           server = XMLRPC::Client.new2('http://www.juggernautguild.com/interface/board/')
 

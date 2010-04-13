@@ -16,7 +16,7 @@ end
 
 Factory.define :server do |f|
   f.region 'us'
-  f.name "Mal'Ganis"
+  f.sequence(:name) { |n| "Server #{n}" }
   f.ruleset 'pvp'
 end
 
