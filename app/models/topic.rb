@@ -4,6 +4,12 @@ class Topic
   FORUM_IDS = [6, 21, 45, 44] # Review, Archives, Denied, Waiting
 
   class << self
+    def update_all
+      self.fetch_topics(self::FORUM_IDS.join(',')) do |response|
+        self.update_status(response)
+      end
+    end
+
     def fetch_topics(forum_ids, &block)
       server = XMLRPC::Client.new2('http://www.juggernautguild.com/interface/board/')
 
