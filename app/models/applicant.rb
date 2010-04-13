@@ -55,6 +55,7 @@ class Applicant < ActiveRecord::Base
   # - A topic in forum 21 (Archives) is considered 'guilded'
   # - A topic in forum 45 (Declined) is considered 'declined'
   # - A topic in forum 44 (Waiting) is considered 'waiting'
+  # - 'pending' and 'posted' are controlled by the user and should not be updated here.
   def update_status_from_board!(response)
     return if self.status == 'pending'
 
