@@ -3,6 +3,7 @@
   = form.input :age, :input_html => {:size => 8}
   = form.input :time_zone, :selected => "Central Time (US & Canada)"
   - form.inputs :name => 'Play times', :class => 'playtimes' do
+    %p.inline-hints List the hours you can normally play each day of the week. Mal'Ganis is a Central Standard Time (CST) server.
     - %w(sunday monday tuesday wednesday thursday friday saturday).each do |day|
       .playtimes
         = form.input "start_#{day}", :as => :string, :label => '', :required => false, :input_html => {:size => 8}
