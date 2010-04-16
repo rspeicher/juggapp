@@ -10,8 +10,6 @@ Factory.define :applicant do |f|
   f.character_class 'Priest'
   f.armory_link "http://www.wowarmory.com/character-sheet.xml?r=Mal%27Ganis&n=Tsigo"
   f.association :server
-
-  # System Info
 end
 
 Factory.define :server do |f|

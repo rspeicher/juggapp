@@ -102,10 +102,6 @@ OldApplicant.all(:app_mid.gt => 0, :app_thread.gt => 0, :char_race.not => '', :c
     :reasons_for_leaving => old.wow_reasonleft,
     :pve_experience      => old.wow_pve,
     :pvp_experience      => old.wow_pvp,
-    :connection_type     => old.sys_connection,
-    :has_microphone      => old.sys_mic,
-    :has_ventrilo        => old.sys_vent,
-    :uses_ventrilo       => old.sys_talk,
     :comments            => old.comments
   )
 

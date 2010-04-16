@@ -29,12 +29,6 @@ class CreateApplicants < ActiveRecord::Migration
       t.text :pvp_experience
       t.string :screenshot_link
 
-      # System
-      t.string :connection_type
-      t.boolean :has_microphone
-      t.boolean :has_ventrilo
-      t.boolean :uses_ventrilo
-
       t.text :comments
       t.timestamps
     end

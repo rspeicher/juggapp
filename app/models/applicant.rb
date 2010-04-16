@@ -33,8 +33,6 @@ class Applicant < ActiveRecord::Base
 
   alias_method :current_server, :server
 
-  # System Info
-
   def to_s
     return '' unless self.character_name.present? and self.character_class.present? and self.created_at.present?
 

@@ -54,20 +54,6 @@
 [img]<%= @applicant.screenshot_link %>[/img]
 <%- end -%>
 
-[b][size="4"]System Information[/size][/b]
-
-[b]What type of Internet connection do you normally play on?[/b]
-<%= @applicant.connection_type %>
-
-[b]Do you have a microphone?[/b]
-<%= @applicant.has_microphone? ? 'Yes' : 'No' %>
-
-[b]Do you have Ventrilo installed on your computer?[/b]
-<%= @applicant.has_ventrilo? ? 'Yes' : 'No' %>
-
-[b]Do you talk on Ventrilo?[/b]
-<%= @applicant.uses_ventrilo? ? 'Yes' : 'No' %>
-
 [b][size="4"]Additional Comments[/size][/b]
 
 <%= @applicant.comments %>
