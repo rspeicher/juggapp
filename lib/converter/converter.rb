@@ -10,7 +10,7 @@ class IPBTopic
 
   storage_names[:default] = 'ibf_topics'
 
-  property :id, Serial
+  property :tid, Serial
   property :title, String
   property :description, String
   property :forum_id, Integer
@@ -68,14 +68,20 @@ class OldApplicant
   property :comments, Text
 
   def status
-    if self.app_status == 'new'
-      if self.app_thread > 0
-        'posted'
+    return 'pending' unless self.app_thread > 0
+
+    if thread = IPBTopic.get(self.app_thread)
+      if thread.forum_id == 6
+        (thread.pinned) ? 'accepted' : 'posted'
+      elsif thread.forum_id == 21
+        'guilded'
+      elsif thread.forum_id == 45
+        'denied'
+      elsif thread.forum_id == 44
+        'waiting'
       else
         'pending'
       end
-    else
-      self.app_status
     end
   end
 end
@@ -114,5 +120,5 @@ OldApplicant.all(:app_mid.gt => 0, :app_thread.gt => 0, :char_race.not => '', :c
   app.topic_id = old.app_thread
   app.created_at = old.app_subdate
 
-  app.save!
+  app.save! unless app.status.nil?
 end
