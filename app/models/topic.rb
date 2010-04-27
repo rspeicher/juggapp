@@ -20,7 +20,7 @@ class Topic
         :order_field  => 'started',
         :order_by     => 'desc',
         :offset       => 0,
-        :limit        => 30
+        :limit        => 15
       })
 
       if block_given?
