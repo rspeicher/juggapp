@@ -14,8 +14,7 @@ before "deploy:update", "deploy:check_revision"
 namespace :deploy do
   desc "Update the crontab file"
   task :update_crontab, :roles => :db do
-    # TODO: Crontab for updating servers!
-    # run "cd #{release_path} && whenever --update-crontab #{application}"
+    run "cd #{release_path} && whenever --update-crontab #{application}"
   end
 
   desc "Make sure there is something to deploy"
