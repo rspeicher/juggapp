@@ -1,7 +1,7 @@
 %div.status_info
   %strong Pending:
-  Your application has not yet been posted for review. You can
+  Your application <strong>has not yet been posted</strong> for review. You can
   = link_to('revise it', edit_application_path(app.id))
   or
-  = link_to('post it for review', post_application_url(app), :method => :post) + "."
+  = link_to('post it for review', post_application_url(app), :method => :post, :confirm => "Are you sure? Once an application is posted it cannot be edited.") + "."
   %strong Once an application is posted you will not be able to edit it.
