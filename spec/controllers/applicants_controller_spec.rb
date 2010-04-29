@@ -12,9 +12,6 @@ end
 describe ApplicantsController, "GET index" do
   before(:each) do
     login(:user)
-  end
-
-  before(:each) do
     get :index
   end
 

@@ -1,0 +1,15 @@
+- page_title 'Pending Applications'
+- breadcrumb 'Pending Applications'
+%div.category_block.block_wrap
+  = render :partial => 'shared/maintitle', :object => "Applications"
+  - @applicants.each do |app|
+    %div{ :class => "character_row status_#{app.status}" }
+      = image_tag(class_icon(app.character_class), :alt => "Icon", :class => 'character_image')
+      %div.application_status
+        = image_tag("status_#{app.status}.png", :alt => app.status.titlecase)
+      %div.application_info
+        %div.applicant_name
+          %h4
+            = link_to(h(app.character_name), edit_application_path(app))
+            = "(#{time_ago_in_words(app.created_at)} old)"
+        = render :partial => "applicants/status_#{app.status}", :locals => { :app => app }
