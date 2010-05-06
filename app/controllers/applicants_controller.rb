@@ -59,49 +59,50 @@ class ApplicantsController < ApplicationController
     require 'xmlrpc/client'
 
     if @applicant.status == 'pending'
-        if @parent.is_validating?
-          flash[:error] = "You cannot post an application while your account is validating. Please confirm the e-mail validation first."
-        elsif @parent.applicants.posted.count >= 1
-          flash[:error] = "You cannot have more than one application posted at a time."
+      if @parent.is_validating?
+        flash[:error] = "You cannot post an application while your account is validating. Please confirm the e-mail validation first."
+      elsif @parent.applicants.posted.count >= 1 and (not current_user.is_admin?)
+        flash[:error] = "You cannot have more than one application posted at a time."
+      else
+        server = XMLRPC::Client.new2('http://www.juggernautguild.com/interface/board/')
+
+        response = server.call('postTopic', {
+          :api_module   => 'ipb',
+          :api_key      => Juggernaut[:ipb_api_key],
+          :member_field => 'id',
+          :member_key   => @applicant.user_id,
+          :forum_id     => 6,
+          :topic_title  => @applicant.to_s,
+          :post_content => render_to_string(:layout => false)
+        })
+
+        if response['result'].present? and response['result'] == 'success' and response['topic_id'].present?
+          @applicant.posted!(response['topic_id'])
+          flash[:success] = "Your application has been successfully posted for review."
         else
-          server = XMLRPC::Client.new2('http://www.juggernautguild.com/interface/board/')
-
-          response = server.call('postTopic', {
-            :api_module   => 'ipb',
-            :api_key      => Juggernaut[:ipb_api_key],
-            :member_field => 'id',
-            :member_key   => @applicant.user_id,
-            :forum_id     => 6,
-            :topic_title  => @applicant.to_s,
-            :post_content => render_to_string(:layout => false)
-          })
-
-          if response['result'].present? and response['result'] == 'success' and response['topic_id'].present?
-            @applicant.posted!(response['topic_id'])
-            flash[:success] = "Your application has been successfully posted for review."
-          else
-            flash[:error] = "Your application could not be posted at this time."
-          end
+          flash[:error] = "Your application could not be posted at this time."
         end
+      end
     else
       flash[:error] = "Only pending applications may be posted."
     end
 
+    # FIXME: Redirects back to root even though sometimes we want to redirect back to admin
     respond_to do |wants|
       wants.html { redirect_to root_path }
     end
   end
 
   protected
+    def find_parent
+      @parent = @user = current_user
+    end
+
     def find_applicant
       if current_user.is_admin?
         @applicant = Applicant.find(params[:id])
       else
         @applicant = @parent.applicants.find(params[:id])
       end
-    end
-
-    def find_parent
-      @parent = @user = current_user
     end
 end
