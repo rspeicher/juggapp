@@ -1,6 +1,7 @@
 class ApplicantsController < ApplicationController
   before_filter :require_user
   before_filter :find_parent
+  before_filter :find_applicant, :only => [:edit, :update, :post]
 
   def index
     @applicants = @parent.applicants.find(:all, :order => 'updated_at DESC')
@@ -19,8 +20,6 @@ class ApplicantsController < ApplicationController
   end
 
   def edit
-    @applicant = @parent.applicants.find(params[:id])
-
     unless @applicant.status == 'pending'
       flash.now[:error] = "This application has already been posted for review. Changes made here will not be reflected on the posted application."
     end
@@ -45,8 +44,6 @@ class ApplicantsController < ApplicationController
   end
 
   def update
-    @applicant = @parent.applicants.find(params[:id])
-
     respond_to do |wants|
       if @applicant.update_attributes(params[:applicant])
         flash[:success] = 'Application updated successfully.'
@@ -60,8 +57,6 @@ class ApplicantsController < ApplicationController
 
   def post
     require 'xmlrpc/client'
-
-    @applicant = @parent.applicants.find(params[:id])
 
     if @applicant.status == 'pending'
         if @parent.is_validating?
@@ -98,6 +93,14 @@ class ApplicantsController < ApplicationController
   end
 
   protected
+    def find_applicant
+      if current_user.is_admin?
+        @applicant = Applicant.find(params[:id])
+      else
+        @applicant = @parent.applicants.find(params[:id])
+      end
+    end
+
     def find_parent
       @parent = @user = current_user
     end

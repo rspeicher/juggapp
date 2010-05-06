@@ -35,30 +35,44 @@ describe ApplicantsController, "GET new" do
 end
 
 describe ApplicantsController, "GET edit" do
-  before(:each) do
-    login(:user)
+  context "as a user who has an application" do
+    before(:each) do
+      login(:user)
+    end
+
+    context "pending application" do
+      before(:each) do
+        @app = Factory(:applicant)
+        Applicant.expects(:find).with('1', anything()).returns(@app)
+        get :edit, :id => '1'
+      end
+
+      it { should respond_with(:success) }
+      it { should assign_to(:applicant).with(@app) }
+      it { should render_template(:edit) }
+    end
+
+    context "non-pending application" do
+      before(:each) do
+        @app = Factory(:applicant, :status => 'posted')
+        Applicant.expects(:find).with('1', anything()).returns(@app)
+        get :edit, :id => '1'
+      end
+
+      it { should set_the_flash.to(/has already been posted/) }
+      it { should assign_to(:applicant).with(@app) }
+      it { should render_template(:edit) }
+    end
   end
 
-  context "pending application" do
+  context "as an administrator" do
     before(:each) do
-      @app = Factory(:applicant)
-      Applicant.expects(:find).with('1', anything()).returns(@app)
-      get :edit, :id => '1'
+      login(:admin)
+      @app = Factory(:applicant, :user_id => 999999999, :status => 'pending') # Hacky user_id
+      get :edit, :id => @app.id
     end
 
     it { should respond_with(:success) }
-    it { should assign_to(:applicant).with(@app) }
-    it { should render_template(:edit) }
-  end
-
-  context "non-pending application" do
-    before(:each) do
-      @app = Factory(:applicant, :status => 'posted')
-      Applicant.expects(:find).with('1', anything()).returns(@app)
-      get :edit, :id => '1'
-    end
-
-    it { should set_the_flash.to(/has already been posted/) }
     it { should assign_to(:applicant).with(@app) }
     it { should render_template(:edit) }
   end
