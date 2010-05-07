@@ -54,7 +54,7 @@ describe Applicant do
     it { should belong_to(:user) }
   end
 
-  # FIXME: Deprecated?
+  # FIXME: Deprecated by Shoulda?
   # it { should have_named_scope(:pending) }
   # it { should have_named_scope(:posted) }
   # it { should have_named_scope(:denied) }
@@ -67,29 +67,53 @@ describe Applicant do
   # it { should_not allow_value("http://www.google.com/").for(:armory_link) }
 end
 
-describe Applicant, "#posted!" do
+describe Applicant, "#post" do
   before(:each) do
+    require 'xmlrpc/client'
+
     @applicant = Factory(:applicant)
   end
 
-  it "should set the value for topic_id" do
-    lambda { @applicant.posted!(12345) }.should change(@applicant, :topic_id).from(nil).to(12345)
+  it "should require a 'body' arugment" do
+    lambda { @applicant.post }.should raise_error(ArgumentError)
   end
 
-  it "should change the status to 'posted'" do
-    lambda { @applicant.posted!(12345) }.should change(@applicant, :status).from('pending').to('posted')
+  it "should raise ApplicationNotPending unless application is pending" do
+    @applicant.status = 'posted'
+    lambda { @applicant.post('body') }.should raise_error(ApplicationNotPending)
   end
 
-  it "should save the record" do
-    @applicant.expects(:save)
-    @applicant.posted!(12345)
+  it "should raise ApplicationAlreadyPosted if user already has a posted application" do
+    Factory(:applicant, :user_id => @applicant.user_id, :status => 'posted')
+    lambda { @applicant.post('body') }.should raise_error(ApplicationAlreadyPosted)
   end
 
-  it "should do nothing unless the application is pending" do
-    @applicant.status = 'guilded'
+  context "making successful call" do
+    before(:each) do
+      server = mock()
+      server.expects(:call).with('postTopic', anything()).returns({"result" => "success", "topic_id" => 12345})
+      XMLRPC::Client.stubs(:new2).returns(server)
+    end
 
-    @applicant.expects(:save).never
-    @applicant.posted!(12345)
+    it "should change status to 'posted'" do
+      lambda { @applicant.post('body') }.should change(@applicant, :status).from('pending').to('posted')
+    end
+
+    it "should topic_id from nil to 12345" do
+      lambda { @applicant.post('body') }.should change(@applicant, :topic_id).from(nil).to(12345)
+    end
+  end
+
+  context "making unsuccessful call" do
+    before(:each) do
+      server = mock()
+      server.expects(:call).with('postTopic', anything()).returns({}) # TODO: Find real failure response
+      XMLRPC::Client.stubs(:new2).returns(server)
+    end
+
+    it "should raise ApplicationGenericError" do
+      lambda { @applicant.post('body') }.should raise_error(ApplicationGenericError)
+    end
   end
 end
 

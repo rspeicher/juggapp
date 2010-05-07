@@ -1,3 +1,15 @@
+# Raised when an application could not be posted for an unknown reason.
+class ApplicationGenericError < RuntimeError
+end
+
+# Raised when attempting to post an application not marked as 'pending'
+class ApplicationNotPending < RuntimeError
+end
+
+# Raised when attemping to post an application owned by a user who already has one posted.
+class ApplicationAlreadyPosted < RuntimeError
+end
+
 class Applicant < ActiveRecord::Base
   attr_protected :id, :status, :topic_id, :created_at, :updated_at
 
@@ -39,12 +51,40 @@ class Applicant < ActiveRecord::Base
     "#{self.character_name} - #{self.character_class} - #{self.created_at.to_date.to_s(:db)}"
   end
 
-  def posted!(topic_id)
-    return unless self.status == 'pending'
+  # Posts the application through IP.Board's XMLRPC interface
+  #
+  # Requires <tt>body</tt> to be passed in through the controller's <tt>render_to_string</tt> method.
+  #
+  # Raises:
+  #   - ApplicationNotPending unless the application is pending
+  #   - ApplicationAlreadyPosted if there is already an application from this user marked as 'posted'
+  #   - ApplicationGenericError if the application could not be posted for some other reason
+  def post(body)
+    raise ApplicationNotPending unless self.status == 'pending'
+    raise ApplicationAlreadyPosted unless self.class.count(:conditions => {:user_id => self.user_id, :status => 'posted'}) == 0
 
-    self.topic_id = topic_id
-    self.status = 'posted'
-    self.save
+    require 'xmlrpc/client'
+    server = XMLRPC::Client.new2('http://www.juggernautguild.com/interface/board/')
+
+    response = server.call('postTopic', {
+      :api_module   => 'ipb',
+      :api_key      => Juggernaut[:ipb_api_key],
+      :member_field => 'id',
+      :member_key   => self.user_id,
+      :forum_id     => 6,
+      :topic_title  => self.to_s,
+      :post_content => body
+    })
+
+    if response['result'].present? and response['result'] == 'success' and response['topic_id'].present?
+      self.topic_id = response['topic_id'].to_i
+      self.status = 'posted'
+      self.save
+    else
+      raise ApplicationGenericError
+    end
+
+    return true
   end
 
   # Given a +Hash+ representing a response from +XMLRPC+, update the +status+ attribute depending on several factors.
