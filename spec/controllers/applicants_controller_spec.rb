@@ -144,7 +144,7 @@ describe ApplicantsController, "POST post" do
   context "with a pending application" do
     context "with one application already posted" do
       before(:each) do
-        @app.expects(:post).with(anything()).raises(ApplicationAlreadyPosted)
+        @app.expects(:post).with(anything()).raises(ApplicationAlreadyPostedError)
         post :post, :id => '1'
       end
 
@@ -175,7 +175,7 @@ describe ApplicantsController, "POST post" do
 
   context "with a non-pending application" do
     before(:each) do
-      @app.expects(:post).with(anything()).raises(ApplicationNotPending)
+      @app.expects(:post).with(anything()).raises(ApplicationNotPendingError)
       post :post, :id => '1'
     end
 

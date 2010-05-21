@@ -59,12 +59,8 @@ class ApplicantsController < ApplicationController
     begin
       @applicant.post(render_to_string(:layout => false))
       flash[:success] = "Your application has been successfully posted for review."
-    rescue ApplicationGenericError
-      flash[:error] = "Your application could not be posted at this time."
-    rescue ApplicationNotPending
-      flash[:error] = "Only pending applications may be posted."
-    rescue ApplicationAlreadyPosted
-      flash[:error] = "You cannot have more than one application posted at a time. Please wait for us to review the previous application."
+    rescue ApplicationGenericError, ApplicationNotPendingError, ApplicationAlreadyPostedError => e
+      flash[:error] = e.message
     ensure
       # FIXME: Redirects back to root even though sometimes we want to redirect back to admin
       respond_to do |wants|

@@ -78,14 +78,14 @@ describe Applicant, "#post" do
     lambda { @applicant.post }.should raise_error(ArgumentError)
   end
 
-  it "should raise ApplicationNotPending unless application is pending" do
+  it "should raise ApplicationNotPendingError unless application is pending" do
     @applicant.status = 'posted'
-    lambda { @applicant.post('body') }.should raise_error(ApplicationNotPending)
+    lambda { @applicant.post('body') }.should raise_error(ApplicationNotPendingError)
   end
 
-  it "should raise ApplicationAlreadyPosted if user already has a posted application" do
+  it "should raise ApplicationAlreadyPostedError if user already has a posted application" do
     Factory(:applicant, :user_id => @applicant.user_id, :status => 'posted')
-    lambda { @applicant.post('body') }.should raise_error(ApplicationAlreadyPosted)
+    lambda { @applicant.post('body') }.should raise_error(ApplicationAlreadyPostedError)
   end
 
   context "making successful call" do

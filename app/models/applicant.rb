@@ -1,13 +1,22 @@
 # Raised when an application could not be posted for an unknown reason.
-class ApplicationGenericError < RuntimeError
+class ApplicationGenericError < StandardError
+  def initialize
+    super "Your application could not be posted at this time."
+  end
 end
 
 # Raised when attempting to post an application not marked as 'pending'
-class ApplicationNotPending < RuntimeError
+class ApplicationNotPendingError < StandardError
+  def initialize
+    super "Only pending applications may be posted."
+  end
 end
 
 # Raised when attemping to post an application owned by a user who already has one posted.
-class ApplicationAlreadyPosted < RuntimeError
+class ApplicationAlreadyPostedError < StandardError
+  def initialize
+    super "You cannot have more than one application posted at a time. Please wait for us to review the previous application."
+  end
 end
 
 class Applicant < ActiveRecord::Base
@@ -56,12 +65,12 @@ class Applicant < ActiveRecord::Base
   # Requires <tt>body</tt> to be passed in through the controller's <tt>render_to_string</tt> method.
   #
   # Raises:
-  #   - ApplicationNotPending unless the application is pending
-  #   - ApplicationAlreadyPosted if there is already an application from this user marked as 'posted'
+  #   - ApplicationNotPendingError unless the application is pending
+  #   - ApplicationAlreadyPostedError if there is already an application from this user marked as 'posted'
   #   - ApplicationGenericError if the application could not be posted for some other reason
   def post(body)
-    raise ApplicationNotPending unless self.status == 'pending'
-    raise ApplicationAlreadyPosted unless self.class.count(:conditions => {:user_id => self.user_id, :status => 'posted'}) == 0
+    raise ApplicationNotPendingError.new unless self.status == 'pending'
+    raise ApplicationAlreadyPostedError.new unless self.class.count(:conditions => {:user_id => self.user_id, :status => 'posted'}) == 0
 
     require 'xmlrpc/client'
     server = XMLRPC::Client.new2('http://www.juggernautguild.com/interface/board/')
@@ -76,15 +85,13 @@ class Applicant < ActiveRecord::Base
       :post_content => body
     })
 
-    if response['result'].present? and response['result'] == 'success' and response['topic_id'].present?
+    if response_valid?(response)
       self.topic_id = response['topic_id'].to_i
       self.status = 'posted'
       self.save
     else
-      raise ApplicationGenericError
+      raise ApplicationGenericError.new
     end
-
-    return true
   end
 
   # Given a +Hash+ representing a response from +XMLRPC+, update the +status+ attribute depending on several factors.
@@ -111,5 +118,13 @@ class Applicant < ActiveRecord::Base
     end
 
     self.save
+  end
+
+  private
+
+  def response_valid?(response)
+    response['result'].present? and
+    response['result'] == 'success' and
+    response['topic_id'].present?
   end
 end
