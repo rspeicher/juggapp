@@ -24,4 +24,4 @@ I'd love to see what other people do with this. Please fork and/or submit ticket
 
 ## Credits
 
-Copyright (c) 2008-2010 Robert Speicher, released under the MIT license
+Copyright (c) 2010 Robert Speicher, released under the MIT license
