@@ -4,7 +4,7 @@ JuggApp is a Rails application written to provide a way for people to apply to m
 
 ## Customizing For Your Guild
 
-As the application was written specifically and solely for Juggernaut's use, you'll have to make several major changes to it if you want to use it for your own guild, even if you copy our loot system exactly.
+As the application was written specifically and solely for Juggernaut's use, you'll have to make several major changes to it if you want to use it for your own guild.
 
 ### Layout
 
