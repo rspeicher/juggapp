@@ -4,14 +4,14 @@
   %head
     %title= yield :page_title
     %link{ :rel => "shortcut icon", :href => 'http://www.juggernautguild.com/favicon.ico'}/
-    = stylesheet_link_tag 'http://www.juggernautguild.com/public/min/index.php?f=public/style_css/css_4/calendar_select.css,public/style_css/css_4/ipb_styles.css,public/style_css/css_4/ipb_editor.css,public/style_css/css_4/juggernaut.css'
+    = stylesheet_link_tag 'http://www.juggernautguild.com/public/min/index.php?f=public/style_css/css_5/ipb_help.css,public/style_css/css_5/juggernaut.css,public/style_css/css_5/calendar_select.css,public/style_css/css_5/ipb_styles.css,public/style_css/css_5/ipb_editor.css,public/style_css/css_5/ipb_common.css,public/style_css/prettify.css'
     = stylesheet_link_tag 'application'
     %script{ :src => 'http://www.google.com/jsapi' }
     :javascript
       google.load('jquery', '1.3.2');
       google.load('jqueryui', '1.7.2');
     = javascript_include_tag 'application'
-  %body.lf{ :id => "#{controller.controller_name}_root" }
+  %body#ipboard_body{ :class => "#{controller.controller_name}_root lf" }
     %noscript
       .error
         %span This site makes extensive use of JavaScript. Please enable it to continue.
@@ -28,7 +28,7 @@
           %strong Mod Tools:
           %ul#mod_tools
             %li= link_to('IP Lookup', 'http://www.juggernautguild.com/index.php?app=core&amp;module=usercp&amp;tab=members&amp;area=mod_ipaddress', :title => 'IP Lookup')
-            %li= link_to('Manage Announcement', 'http://www.juggernautguild.com/index.php?app=core&amp;module=usercp&amp;tab=forums&amp;area=mod_announcements', :title => 'Manage Announcement')
+            %li= link_to('Manage Announcements', 'http://www.juggernautguild.com/index.php?app=core&amp;module=usercp&amp;tab=forums&amp;area=mod_announcements', :title => 'Manage Announcements')
 
       #header
         #branding
@@ -50,7 +50,6 @@
           #nav_con_left
             #nav_con_right
               #search
-                / TODO: Search field
               #primary_nav
                 %ul
                   %li#nav_home= link_to(content_tag(:span, 'News'), 'http://www.juggernautguild.com/', :title => 'Homepage', :rel => 'home')
@@ -84,7 +83,7 @@
             #categories.hover_rows.no_sidebar.clearfix
               = yield
 
-          / %ul#stat_links.filter_bar.rounded
+          -# %ul#stat_links.filter_bar.rounded
 
           #board_statistics.statistics.general_box.clearfix.hide
             #stats
@@ -99,7 +98,7 @@
               %li= link_to('Back to top', '#top', :title => 'Go to top')
               %li= link_to('Forum Home', 'http://www.juggernautguild.com/index', :title => 'Forum Home')
             %p#copyright.right
-              = "Powered by #{link_to('Ruby on Rails', 'http://rubyonrails.org/')}"
+              = "Powered by #{link_to('JuggApp', 'http://github.com/tsigo/juggapp')}"
               %br
               = "Hosted by #{link_to('NetworkRedux', 'http://www.networkredux.com/')}"
             %br.clear
