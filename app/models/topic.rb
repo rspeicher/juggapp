@@ -11,7 +11,7 @@ class Topic
     end
 
     def fetch_topics(forum_ids, &block)
-      server = XMLRPC::Client.new2('http://www.juggernautguild.com/interface/board/')
+      server = XMLRPC::Client.new2(Juggernaut[:ipb_api_url])
 
       topics = server.call('fetchTopics', {
         :api_module   => 'ipb',

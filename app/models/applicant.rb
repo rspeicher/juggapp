@@ -73,7 +73,7 @@ class Applicant < ActiveRecord::Base
     raise ApplicationAlreadyPostedError.new unless self.class.count(:conditions => {:user_id => self.user_id, :status => 'posted'}) == 0
 
     require 'xmlrpc/client'
-    server = XMLRPC::Client.new2('http://www.juggernautguild.com/interface/board/')
+    server = XMLRPC::Client.new2(Juggernaut[:ipb_api_url])
 
     response = server.call('postTopic', {
       :api_module   => 'ipb',
