@@ -60,6 +60,26 @@ describe Applicant do
   # it { should_not allow_value("http://www.google.com/").for(:armory_link) }
 end
 
+describe Applicant, "status changing" do
+  context "from posted to accepted" do
+    let(:applicant) { Factory(:applicant, :status => 'posted') }
+
+    it "should call create_feedback" do
+      applicant.expects(:create_feedback).returns(true)
+      applicant.update_attribute(:status, 'accepted')
+    end
+  end
+
+  context "from pending to posted" do
+    let(:applicant) { Factory(:applicant, :status => 'pending') }
+
+    it "should do nothing" do
+      applicant.expects(:create_feedback).never
+      applicant.update_attribute(:status, 'posted')
+    end
+  end
+end
+
 describe Applicant, "#post" do
   before(:each) do
     require 'xmlrpc/client'
@@ -110,6 +130,15 @@ describe Applicant, "#post" do
   end
 end
 
+describe Applicant, "#create_feedback" do
+  let(:applicant) { Factory(:applicant) }
+
+  it "should raise ApplicationInvalidStatus unless application is accepted" do
+    applicant.status = 'pending'
+    lambda { applicant.create_feedback }.should raise_error(ApplicationStatusError, /hasn't been accepted/)
+  end
+end
+
 describe Applicant, "#update_status_from_board!" do
   include XMLRPCHelper
 
@@ -117,6 +146,7 @@ describe Applicant, "#update_status_from_board!" do
     applicant = Factory(:applicant, :status => status_before, :topic_id => 12345)
     response = XMLRPCHelper::Response[response_name][0]
 
+    applicant.stubs(:create_feedback)
     lambda { applicant.update_status_from_board!(response) }.should change(applicant, :status).from(status_before).to(status_after)
   end
 

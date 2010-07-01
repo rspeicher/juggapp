@@ -90,6 +90,34 @@ class Applicant < ActiveRecord::Base
     end
   end
 
+  # Creates a public feedback thread for the applicant through IP.Board's XLMRPC interface
+  #
+  # Raises:
+  # - ApplicationStatusError unless the application is accepted
+  # --
+  # TODO: Move XMLRPC stuff to its own model
+  def create_feedback
+    raise ApplicationStatusError.new("Cannot create feedback for an applicant that hasn't been accepted.") unless self.status == 'accepted'
+
+    require 'xmlrpc/client'
+    server = XMLRPC::Client.new2(Juggernaut[:ipb_api_url])
+
+    response = server.call('postTopic', {
+      :api_module   => 'ipb',
+      :api_key      => Juggernaut[:ipb_api_key],
+      :member_field => 'id',
+      :member_key   => self.user_id,
+      :forum_id     => 50,
+      :topic_title  => "#{self.character_name} - #{self.character_class}",
+      :post_content => "Public feedback thread for #{self.character_name}."
+    })
+
+    # TODO: Response handling? Do we care?
+    # if response_valid?(response)
+    # else
+    # end
+  end
+
   # Given a +Hash+ representing a response from +XMLRPC+, update the +status+ attribute depending on several factors.
   #
   # - A pinned topic in forum 6 (Applicant Review) is considered 'accepted'
@@ -117,6 +145,16 @@ class Applicant < ActiveRecord::Base
   end
 
   private
+
+  after_update :check_status_changed
+
+  def check_status_changed
+    if self.changed.include? 'status'
+      if self.changes['status'][0] == 'posted' and self.status == 'accepted'
+        self.create_feedback
+      end
+    end
+  end
 
   def response_valid?(response)
     response['result'].present? and
