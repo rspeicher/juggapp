@@ -175,7 +175,7 @@ describe ApplicantsController, "POST post" do
 
   context "with a non-pending application" do
     before(:each) do
-      @app.expects(:post).with(anything()).raises(ApplicationNotPendingError)
+      @app.expects(:post).with(anything()).raises(ApplicationStatusError, "Only pending applications may be posted.")
       post :post, :id => '1'
     end
 

@@ -80,7 +80,7 @@ describe Applicant, "#post" do
 
   it "should raise ApplicationNotPendingError unless application is pending" do
     @applicant.status = 'posted'
-    lambda { @applicant.post('body') }.should raise_error(ApplicationNotPendingError)
+    lambda { @applicant.post('body') }.should raise_error(ApplicationStatusError, /Only pending/)
   end
 
   it "should raise ApplicationAlreadyPostedError if user already has a posted application" do

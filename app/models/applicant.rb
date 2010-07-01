@@ -5,17 +5,17 @@ class ApplicationGenericError < StandardError
   end
 end
 
-# Raised when attempting to post an application not marked as 'pending'
-class ApplicationNotPendingError < StandardError
-  def initialize
-    super "Only pending applications may be posted."
-  end
-end
-
 # Raised when attemping to post an application owned by a user who already has one posted.
 class ApplicationAlreadyPostedError < StandardError
   def initialize
     super "You cannot have more than one application posted at a time. Please wait for us to review the previous application."
+  end
+end
+
+# Raised when attempting to do something status-dependent with an invalid status
+class ApplicationStatusError < StandardError
+  def initialize(msg)
+    super msg
   end
 end
 
@@ -65,11 +65,13 @@ class Applicant < ActiveRecord::Base
   # Requires <tt>body</tt> to be passed in through the controller's <tt>render_to_string</tt> method.
   #
   # Raises:
-  #   - ApplicationNotPendingError unless the application is pending
-  #   - ApplicationAlreadyPostedError if there is already an application from this user marked as 'posted'
-  #   - ApplicationGenericError if the application could not be posted for some other reason
+  # - ApplicationStatusError unless the application is pending
+  # - ApplicationAlreadyPostedError if there is already an application from this user marked as 'posted'
+  # - ApplicationGenericError if the application could not be posted for some other reason
+  # --
+  # TODO: Move XMLRPC stuff to its own model
   def post(body)
-    raise ApplicationNotPendingError.new unless self.status == 'pending'
+    raise ApplicationStatusError.new("Only pending applications may be posted.") unless self.status == 'pending'
     raise ApplicationAlreadyPostedError.new unless self.class.count(:conditions => {:user_id => self.user_id, :status => 'posted'}) == 0
 
     require 'xmlrpc/client'

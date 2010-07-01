@@ -59,7 +59,7 @@ class ApplicantsController < ApplicationController
     begin
       @applicant.post(render_to_string(:layout => false))
       flash[:success] = "Your application has been successfully posted for review."
-    rescue ApplicationGenericError, ApplicationNotPendingError, ApplicationAlreadyPostedError => e
+    rescue ApplicationGenericError, ApplicationStatusError, ApplicationAlreadyPostedError => e
       flash[:error] = e.message
     ensure
       # FIXME: Redirects back to root even though sometimes we want to redirect back to admin
