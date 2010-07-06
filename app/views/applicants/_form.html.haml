@@ -20,6 +20,8 @@
   = form.input :character_class, :as => :select, :collection => Applicant::WOW_CLASSES, :label => 'Class', :required => true
   = form.input :character_race, :as => :select, :collection => Applicant::WOW_RACES, :label => 'Current race', :required => true
   = form.input :armory_link, :label => "Provide a link to your character's Armory profile", :required => true, :input_html => {:size => 92}
+  = form.input :primary_spec, :label => "What is your primary talent spec?"
+  = form.input :secondary_spec, :label => "Describe your experience with your off-specs", :input_html => {:size => '90x15'}
   = form.input :previous_guilds, :label => 'Describe, in detail, your entire guild history across all of your characters, and your reasons for leaving each guild', :input_html => {:size => '90x15'}
   = form.input :pve_experience, :label => 'Describe your previous PvE experience', :input_html => {:size => '90x15'}
   = form.input :pvp_experience, :label => 'Describe your previous PvP experience', :input_html => {:size => '90x15'}

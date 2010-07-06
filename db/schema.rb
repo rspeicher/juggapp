@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100218095445) do
+ActiveRecord::Schema.define(:version => 20100706140025) do
 
   create_table "applicants", :force => true do |t|
     t.string   "status",              :default => "pending"
@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(:version => 20100218095445) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "primary_spec"
+    t.text     "secondary_spec"
   end
 
   add_index "applicants", ["topic_id"], :name => "index_applicants_on_topic_id"
