@@ -30,9 +30,9 @@ config.action_mailer.delivery_method = :test
 config.gem 'factory_girl', :lib => 'factory_girl'
 config.gem 'fakeweb'
 config.gem 'mocha'
-config.gem 'rspec', :lib => false
-config.gem 'rspec-rails', :lib => false
-config.gem 'shoulda', :lib => false
+config.gem 'rspec',        :lib => false
+config.gem 'rspec-rails',  :lib => false
+config.gem 'shoulda',      :lib => false, :version => '>= 2.11.3'
 
 require 'fakeweb'
 FakeWeb.allow_net_connect = false

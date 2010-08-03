@@ -59,7 +59,7 @@ describe ApplicantsController, "GET edit" do
         get :edit, :id => '1'
       end
 
-      it { should set_the_flash.to(/has already been posted/) }
+      it { should set_the_flash.to(/has already been posted/).now }
       it { should assign_to(:applicant).with(@app) }
       it { should render_template(:edit) }
     end
@@ -101,7 +101,7 @@ describe ApplicantsController, "POST create" do
       post :create, :applicant => {}
     end
 
-    it { should set_the_flash.to(/problem with your application/) }
+    it { should set_the_flash.to(/problem with your application/).now }
     it { should render_template(:new) }
   end
 end
@@ -129,7 +129,7 @@ describe ApplicantsController, "PUT update" do
       put :update, :id => '1', :applicant => {}
     end
 
-    it { should set_the_flash.to(/problem with your application/) }
+    it { should set_the_flash.to(/problem with your application/).now }
     it { should render_template(:edit) }
   end
 end
