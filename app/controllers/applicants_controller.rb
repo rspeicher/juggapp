@@ -4,7 +4,7 @@ class ApplicantsController < ApplicationController
   before_filter :find_applicant, :only => [:edit, :update, :post]
 
   def index
-    @applicants = @parent.applicants.find(:all, :order => 'updated_at DESC')
+    @applicants = @parent.applicants.order('updated_at DESC')
 
     respond_to do |wants|
       wants.html

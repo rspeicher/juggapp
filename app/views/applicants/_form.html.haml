@@ -1,8 +1,8 @@
-- form.inputs 'Personal Information' do
+= form.inputs 'Personal Information' do
   = form.input :name, :label => 'First name', :hint => 'Your real first name', :input_html => {:size => 25}
   = form.input :age, :input_html => {:size => 8}
   = form.input :time_zone, :selected => "Central Time (US & Canada)"
-  - form.inputs :name => 'Play times', :class => 'playtimes' do
+  = form.inputs :name => 'Play times', :class => 'playtimes' do
     %p.inline-hints List the hours you can normally play each day of the week. Mal'Ganis is a Central Standard Time (CST) server.
     - %w(sunday monday tuesday wednesday thursday friday saturday).each do |day|
       .playtimes
@@ -14,7 +14,7 @@
   = form.input :future_commitments, :label => 'List any current or near future commitments you have that might affect your raid attendance', :input_html => {:size => '90x15'}
   = form.input :reasons_for_joining, :label => 'Why do you want to join Juggernaut?', :input_html => {:size => '90x15'}
 
-- form.inputs 'Character Information' do
+= form.inputs 'Character Information' do
   = form.input :server, :label => 'Current server', :required => true, :hint => "Note: US servers only."
   = form.input :character_name, :label => 'Current name', :required => true
   = form.input :character_class, :as => :select, :collection => Applicant::WOW_CLASSES, :label => 'Class', :required => true
@@ -27,10 +27,10 @@
   = form.input :pvp_experience, :label => 'Describe your previous PvP experience', :input_html => {:size => '90x15'}
   = form.input :screenshot_link, :label => 'Provide a link to a screenshot of your interface during a raid', :input_html => {:size => 92}
 
-- form.inputs :name => 'Additional Comments' do
+= form.inputs :name => 'Additional Comments' do
   = form.input :comments, :label => 'Add any additional information you think may be pertinent', :input_html => {:size => '90x15'}
 
-- form.buttons :class => 'submit' do
+= form.buttons :class => 'submit' do
   = form.submit 'Save', :class => 'input_submit'
   or
   = link_to('Cancel', root_path, :class => 'cancel')

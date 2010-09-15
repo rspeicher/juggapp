@@ -1,3 +1,5 @@
+require 'xmlrpc/client'
+
 # Raised when an application could not be posted for an unknown reason.
 class ApplicationGenericError < StandardError
   def initialize
@@ -22,12 +24,12 @@ end
 class Applicant < ActiveRecord::Base
   attr_protected :id, :status, :topic_id, :created_at, :updated_at
 
-  named_scope :pending,  :conditions => { :status => 'pending' }
-  named_scope :posted,   :conditions => { :status => 'posted' }
-  named_scope :denied,   :conditions => { :status => 'denied' }
-  named_scope :accepted, :conditions => { :status => 'accepted' }
-  named_scope :guilded,  :conditions => { :status => 'guilded' }
-  named_scope :waiting,  :conditions => { :status => 'waiting' }
+  scope :pending,  where(:status => 'pending')
+  scope :posted,   where(:status => 'posted')
+  scope :denied,   where(:status => 'denied')
+  scope :accepted, where(:status => 'accepted')
+  scope :guilded,  where(:status => 'guilded')
+  scope :waiting,  where(:status => 'waiting')
 
   WOW_CLASSES = (['Death Knight'] + %w(Druid Hunter Mage Paladin Priest Rogue Shaman Warlock Warrior)).sort.freeze
   WOW_RACES   = (['Blood Elf', 'Night Elf'] + %w(Draenei Dwarf Gnome Human Orc Tauren Troll Undead)).sort.freeze
@@ -38,9 +40,9 @@ class Applicant < ActiveRecord::Base
   validates_presence_of :character_name
   validates_presence_of :server
   validates_presence_of :character_race
-  validates_inclusion_of :character_race, :in => WOW_RACES, :message => "{{value}} is not a valid race", :if => Proc.new { |c| c.character_race.present? }
+  validates_inclusion_of :character_race, :in => WOW_RACES, :message => "%{value} is not a valid race", :if => Proc.new { |c| c.character_race.present? }
   validates_presence_of :character_class
-  validates_inclusion_of :character_class, :in => WOW_CLASSES, :message => "{{value}} is not a valid class", :if => Proc.new { |c| c.character_class.present? }
+  validates_inclusion_of :character_class, :in => WOW_CLASSES, :message => "%{value} is not a valid class", :if => Proc.new { |c| c.character_class.present? }
   validates_presence_of :armory_link
 
   belongs_to :user
@@ -68,7 +70,6 @@ class Applicant < ActiveRecord::Base
     raise ApplicationStatusError.new("Only pending applications may be posted.") unless self.status == 'pending'
     raise ApplicationAlreadyPostedError.new unless self.class.count(:conditions => {:user_id => self.user_id, :status => 'posted'}) == 0
 
-    require 'xmlrpc/client'
     server = XMLRPC::Client.new2(Juggernaut[:ipb_api_url])
 
     response = server.call('postTopic', {
@@ -82,7 +83,8 @@ class Applicant < ActiveRecord::Base
     })
 
     if response_valid?(response)
-      self.topic_id = response['topic_id'].to_i
+      response.symbolize_keys!
+      self.topic_id = response[:topic_id].to_i
       self.status = 'posted'
       self.save
     else
@@ -99,7 +101,6 @@ class Applicant < ActiveRecord::Base
   def create_feedback
     raise ApplicationStatusError.new("Cannot create feedback for an applicant that hasn't been accepted.") unless self.status == 'accepted'
 
-    require 'xmlrpc/client'
     server = XMLRPC::Client.new2(Juggernaut[:ipb_api_url])
 
     response = server.call('postTopic', {
@@ -157,8 +158,9 @@ class Applicant < ActiveRecord::Base
   end
 
   def response_valid?(response)
-    response['result'].present? and
-    response['result'] == 'success' and
-    response['topic_id'].present?
+    response.symbolize_keys!
+    response[:result].present? and
+    response[:result] == 'success' and
+    response[:topic_id].present?
   end
 end

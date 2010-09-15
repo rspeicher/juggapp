@@ -33,7 +33,8 @@ class Topic
     end
 
     def update_status(response)
-      if applicant = Applicant.find(:first, :conditions => {:topic_id => response['topic_id']})
+      response.symbolize_keys!
+      if applicant = Applicant.where(:topic_id => response[:topic_id]).first
         applicant.update_status_from_board!(response)
       end
     end

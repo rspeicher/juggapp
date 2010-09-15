@@ -1,25 +1,21 @@
-# This file is copied to ~/spec when you run 'ruby script/generate rspec'
-# from the project root directory.
+# This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
-require File.expand_path(File.join(File.dirname(__FILE__),'..','config','environment'))
-require 'spec/autorun'
-require 'spec/rails'
-require 'shoulda'
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
 
-# Requires supporting files with custom matchers and macros, etc,
-# in ./support/ and its subdirectories.
-Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each {|f| require f}
+FakeWeb.allow_net_connect = false
 
-Spec::Runner.configure do |config|
-  config.use_transactional_fixtures = true
-  config.use_instantiated_fixtures  = false
-  config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
+# Requires supporting ruby files with custom matchers and macros, etc,
+# in spec/support/ and its subdirectories.
+Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
-  config.include(LoginHelper, :type => :controller)
-
+RSpec.configure do |config|
   config.mock_with :mocha
-end
+  config.use_transactional_fixtures = true
 
-def file_fixture(*args)
-  File.read(File.join(File.dirname(__FILE__), "file_fixtures", args))
+  config.include(FileFixture)
+  config.include(ControllerHelper, :type => :controller)
+  config.include(LoginHelper,      :type => :controller)
+
+  config.after(:each) { User.delete_all }
 end

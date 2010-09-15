@@ -3,7 +3,7 @@ module ApplicationHelper
     args.push('Juggernaut Guild')
     content_for(:page_title) { args.join(' :: ') }
   end
-  
+
   def breadcrumb(*args)
     # Insert the first breadcrumb, it's always the same
     content_for(:breadcrumb) { content_tag(:li, link_to('Juggernaut Guild', 'http://www.juggernautguild.com/'), :class => 'first') }

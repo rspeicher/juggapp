@@ -1,4 +1,6 @@
-class User < InvisionBridge::User::Base
+class User < ActiveRecord::Base
+  include InvisionBridge
+
   GROUP_VALIDATING = 1
   GROUP_ANONYMOUS  = 2
   GROUP_PEONS      = 3
@@ -8,7 +10,7 @@ class User < InvisionBridge::User::Base
   GROUP_APPLICANTS = 9
 
   has_many :applicants
-  
+
   def is_validating?
     self.member_group_id == GROUP_VALIDATING
   end

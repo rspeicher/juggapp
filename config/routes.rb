@@ -1,10 +1,15 @@
-ActionController::Routing::Routes.draw do |map|
-  map.resource :admin, :controller => 'admin', :only => [:show]
-  map.resources :applications, :controller => :applicants, :except => [:show, :destroy], :member => { :post => :post }
+JuggApp::Application.routes.draw do
+  resource :admin, :controller => 'admin', :only => [:show]
 
-  map.resource :user_session, :only => [:new, :create, :destroy]
-  map.connect '/login', :controller => 'user_sessions', :action => 'new'
-  map.connect '/logout', :controller => 'user_sessions', :action => 'destroy'
+  resources :applications, :controller => :applicants, :except => [:show, :destroy] do
+    post :post, :on => :member
+  end
 
-  map.root :controller => 'applicants', :action => 'index'
+  resource :user_session, :only => [:new, :create, :destroy]
+
+  match "/login" => "user_sessions#new"
+
+  match "/logout" => "user_sessions#destroy", :method => :delete
+
+  root :to => "applicants#index"
 end

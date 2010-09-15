@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Server do
-  before(:each) do
+  before do
     @server = Factory(:server)
   end
 
@@ -37,7 +37,7 @@ describe Server do
   end
 end
 
-describe Server, "before_save" do
+describe Server, "normalize_attributes callback" do
   it "should downcase +region+ before save" do
     Factory(:server, :region => 'EU').region.should eql('eu')
   end
@@ -48,7 +48,7 @@ describe Server, "before_save" do
 end
 
 describe Server, ".create_from_armory" do
-  before(:each) do
+  before do
     FakeWeb.register_uri(:get, 'http://www.worldofwarcraft.com/realmstatus/index.xml', :body => file_fixture('realm_status.xml'))
   end
 

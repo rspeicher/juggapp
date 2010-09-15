@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Applicant do
-  before(:each) do
+  before do
     UserSession.stubs(:find).returns(stub(:id => 1))
     @applicant = Factory(:applicant)
   end
@@ -81,7 +81,7 @@ describe Applicant, "status changing" do
 end
 
 describe Applicant, "#post" do
-  before(:each) do
+  before do
     require 'xmlrpc/client'
 
     @applicant = Factory(:applicant)
@@ -102,7 +102,7 @@ describe Applicant, "#post" do
   end
 
   context "making successful call" do
-    before(:each) do
+    before do
       server = mock()
       server.expects(:call).with('postTopic', anything()).returns({"result" => "success", "topic_id" => 12345})
       XMLRPC::Client.stubs(:new2).returns(server)
@@ -118,7 +118,7 @@ describe Applicant, "#post" do
   end
 
   context "making unsuccessful call" do
-    before(:each) do
+    before do
       server = mock()
       server.expects(:call).with('postTopic', anything()).returns({}) # TODO: Find real failure response
       XMLRPC::Client.stubs(:new2).returns(server)
@@ -180,7 +180,7 @@ describe Applicant, "time parsing" do
     time.strftime("%H:%M")
   end
 
-  before(:each) do
+  before do
     @applicant = Factory(:applicant)
   end
 

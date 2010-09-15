@@ -5,7 +5,7 @@ describe AdminController, "routing" do
 end
 
 describe AdminController, "GET show" do
-  before(:each) do
+  before do
     login(:admin)
     get :show
   end

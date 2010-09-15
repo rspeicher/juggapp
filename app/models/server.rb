@@ -1,3 +1,6 @@
+require 'open-uri'
+require 'nokogiri'
+
 class Server < ActiveRecord::Base
   RULESETS = %w(pve pvp rp rppvp).freeze
   REGIONS = %w(us eu).freeze
@@ -7,14 +10,11 @@ class Server < ActiveRecord::Base
   validates_presence_of :region
   validates_presence_of :name
   validates_presence_of :ruleset
-  validates_inclusion_of :region, :in => REGIONS, :message => "{{value}} is not a valid region."
-  validates_inclusion_of :ruleset, :in => RULESETS, :message => "{{value}} is not a valid ruleset."
+  validates_inclusion_of :region, :in => REGIONS, :message => "%{value} is not a valid region."
+  validates_inclusion_of :ruleset, :in => RULESETS, :message => "%{value} is not a valid ruleset."
   validates_uniqueness_of :name, :scope => :region
 
   def self.create_from_armory
-    require 'open-uri'
-    require 'nokogiri'
-
     current_servers = Server.all.inject([]) { |memo, server| memo << "#{server.region}-#{server.name.downcase}" }
 
     doc = Nokogiri::XML(open("http://www.worldofwarcraft.com/realmstatus/index.xml"))
@@ -33,7 +33,9 @@ class Server < ActiveRecord::Base
   end
 
   protected
-    def before_validation
+    before_validation :normalize_attributes
+
+    def normalize_attributes
       self.region = self.region.downcase unless self.region.blank?
       self.ruleset = self.ruleset.downcase unless self.ruleset.blank?
     end

@@ -1,9 +1,8 @@
 require 'spec_helper'
+require 'xmlrpc/client'
 
 describe Topic, "fetch_topics" do
-  before(:each) do
-    require 'xmlrpc/client'
-
+  before do
     server = mock()
     server.expects(:call).with('fetchTopics', anything()).returns(['Response'])
     XMLRPC::Client.stubs(:new2).returns(server)
@@ -20,11 +19,11 @@ end
 describe Topic, ".update_status" do
   include XMLRPCHelper
 
-  before(:each) do
+  before do
     @response = XMLRPCHelper::Response[:fetchTopics_review][0]
+    @response.symbolize_keys!
 
-    @applicant = Factory(:applicant, :topic_id => 12345)
-    Applicant.expects(:find).with(:first, anything()).returns(@applicant)
+    @applicant = Factory(:applicant, :topic_id => @response[:topic_id])
     Applicant.any_instance.expects(:update_status_from_board!).with(@response).returns(true)
   end
 
