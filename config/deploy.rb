@@ -43,3 +43,4 @@ end
 # end
 #
 # require 'hoptoad_notifier/capistrano'
+require 'bundler/capistrano'
