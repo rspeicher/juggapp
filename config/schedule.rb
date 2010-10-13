@@ -1,7 +1,7 @@
 every 2.hours do
-  runner "Topic.update_all"
+  rake 'applications:update'
 end
 
 every 1.week do
-  runner "Server.create_from_armory"
+  rake 'severs:update'
 end
