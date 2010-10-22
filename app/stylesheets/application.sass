@@ -34,9 +34,9 @@ span.smaller
 // Success/Failure flash notice divs ------------------------------------------
 
 .positive
-  color = !positive_color
+  color: $positive_color
 .negative
-  color = !negative_color
+  color: $negative_color
 
 div.message.success
   cursor: pointer
@@ -70,12 +70,14 @@ div.character_row
   &.status_denied, &.status_pending
     background-color: #f3dddd
     border-color: #deb7b7
+    border-width: 3px
+    border-style: solid
   &.status_accepted, &.status_guilded
     background-color: #f1f6ec
     border-color: #b0ce94
   &.status_waiting, &.status_posted
     background-color: #FFFCCC
-    border-color = !notice_border_color
+    border-color: $notice_border_color
 
   padding: 10px
   margin: 5px 0
