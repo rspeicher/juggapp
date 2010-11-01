@@ -41,6 +41,8 @@ describe Applicant do
     it { should allow_value('Undead').for(:character_race) }
     it { should_not allow_value('Invalid').for(:character_race) }
     it { should validate_presence_of(:armory_link) }
+    it { should allow_value('http://www.google.com/').for(:screenshot_link) }
+    it { should_not allow_value("C:\\Program Files\\").for(:screenshot_link) }
   end
 
   context "associations" do

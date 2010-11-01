@@ -44,6 +44,8 @@ class Applicant < ActiveRecord::Base
   validates_presence_of :character_class
   validates_inclusion_of :character_class, :in => WOW_CLASSES, :message => "%{value} is not a valid class", :if => Proc.new { |c| c.character_class.present? }
   validates_presence_of :armory_link
+  validates_format_of :screenshot_link, :with => %r{\Ahttps?://}, :allow_nil => true, :allow_blank => true, 
+    :message => %{is not a URL. Upload your image to a service like <a href="http://imgur.com/" target="_new">imgur</a>.}
 
   belongs_to :user
   belongs_to :server
