@@ -52,6 +52,20 @@ class Applicant < ActiveRecord::Base
 
   alias_method :current_server, :server
 
+  # Define `[start|end]_[day_of_week]_string` methods for use by Formtastic
+  %w(sunday monday tuesday wednesday thursday friday saturday).each do |day|
+    %w(start end).each do |type|
+      define_method(:"#{type}_#{day}_string") do
+        obj = self.send("#{type}_#{day}")
+        obj.strftime("%H:%M") unless obj.nil?
+      end
+
+      define_method(:"#{type}_#{day}_string=") do |value|
+        self.send("#{type}_#{day}=", value)
+      end
+    end
+  end
+
   def to_s
     return '' unless self.character_name.present? and self.character_class.present? and self.created_at.present?
 

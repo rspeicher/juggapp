@@ -6,9 +6,9 @@
     %p.inline-hints List the hours you can normally play each day of the week. Mal'Ganis is a Central Standard Time (CST) server.
     - %w(sunday monday tuesday wednesday thursday friday saturday).each do |day|
       .playtimes
-        = form.input "start_#{day}", :as => :string, :label => '', :required => false, :input_html => {:size => 8}
+        = form.input "start_#{day}_string", :as => :string, :label => '', :required => false, :input_html => {:size => 8}
         %li until
-        = form.input "end_#{day}", :as => :string, :label => '', :required => false, :input_html => {:size => 8}
+        = form.input "end_#{day}_string", :as => :string, :label => '', :required => false, :input_html => {:size => 8}
         %li= "CST #{day.titlecase}"
   = form.input :known_members, :label => 'List any current Juggernaut members you know and how you know them', :input_html => {:size => '90x15'}
   = form.input :future_commitments, :label => 'List any current or near future commitments you have that might affect your raid attendance', :input_html => {:size => '90x15'}
