@@ -1,13 +1,13 @@
 [b][size="4"]Personal Info[/size][/b]
 
 [b]First name[/b]
-<%= @applicant.name %>
+<%= raw @applicant.name %>
 
 [b]Age[/b]
-<%= @applicant.age %>
+<%= raw @applicant.age %>
 
 [b]Time zone[/b]
-<%= @applicant.time_zone %>
+<%= raw @applicant.time_zone %>
 
 [b]Play times[/b]
 <%- %w(sunday monday tuesday wednesday thursday friday saturday).each do |day| -%>
@@ -15,51 +15,51 @@
 <%- end -%>
 
 [b]List any current Juggernaut members you know and how you know them[/b]
-<%= @applicant.known_members %>
+<%= raw @applicant.known_members %>
 
 [b]List any current or near future commitments you have that might affect your raid attendance[/b]
-<%= @applicant.future_commitments %>
+<%= raw @applicant.future_commitments %>
 
 [b]Why do you want to join Juggernaut?[/b]
-<%= @applicant.reasons_for_joining %>
+<%= raw @applicant.reasons_for_joining %>
 
 [b][size="4"]Character Information[/size][/b]
 
 [b]Current server[/b]
-<%= @applicant.server.name %>
+<%= raw @applicant.server.name %>
 
 [b]Current name[/b]
-<%= @applicant.character_name %>
+<%= raw @applicant.character_name %>
 
 [b]Class[/b]
-<%= @applicant.character_class %>
+<%= raw @applicant.character_class %>
 
 [b]Current race[/b]
-<%= @applicant.character_race %>
+<%= raw @applicant.character_race %>
 
 [b]Armory link[/b]
-[url="<%= @applicant.armory_link %>"]<%= @applicant.armory_link %>[/url]
+[url="<%= raw @applicant.armory_link %>"]<%= raw @applicant.armory_link %>[/url]
 
 [b]What is your primary talent spec?[/b]
-<%= @applicant.primary_spec %>
+<%= raw @applicant.primary_spec %>
 
 [b]Describe your experience with your off-specs[/b]
-<%= @applicant.secondary_spec %>
+<%= raw @applicant.secondary_spec %>
 
 [b]Describe, in detail, your entire guild history across all of your characters, and your reasons for leaving each guild[/b]
-<%= @applicant.previous_guilds %>
+<%= raw @applicant.previous_guilds %>
 
 [b]Describe your previous PvE experience[/b]
-<%= @applicant.pve_experience %>
+<%= raw @applicant.pve_experience %>
 
 [b]Describe your previous PvP experience[/b]
-<%= @applicant.pvp_experience %>
+<%= raw @applicant.pvp_experience %>
 
 [b]Provide a link to a screenshot of your interface during a raid[/b]
 <%- if @applicant.screenshot_link.present? -%>
-<%= @applicant.screenshot_link %>
+<%= raw @applicant.screenshot_link %>
 <%- end -%>
 
 [b][size="4"]Additional Comments[/size][/b]
 
-<%= @applicant.comments %>
+<%= raw @applicant.comments %>
