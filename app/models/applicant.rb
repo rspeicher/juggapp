@@ -32,7 +32,7 @@ class Applicant < ActiveRecord::Base
   scope :waiting,  where(:status => 'waiting')
 
   WOW_CLASSES = (['Death Knight'] + %w(Druid Hunter Mage Paladin Priest Rogue Shaman Warlock Warrior)).sort.freeze
-  WOW_RACES   = (['Blood Elf', 'Night Elf'] + %w(Draenei Dwarf Gnome Human Orc Tauren Troll Undead)).sort.freeze
+  WOW_RACES   = (['Blood Elf', 'Night Elf'] + %w(Draenei Dwarf Gnome Goblin Human Orc Tauren Troll Undead Worgen)).sort.freeze
 
   validates_inclusion_of :status, :in => %w(pending posted denied accepted guilded waiting)
   validates_presence_of :user_id
