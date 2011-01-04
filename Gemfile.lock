@@ -110,7 +110,7 @@ GEM
     treetop (1.4.8)
       polyglot (>= 0.3.1)
     tzinfo (0.3.23)
-    whenever (0.5.3)
+    whenever (0.6.2)
       aaronh-chronic (>= 0.3.9)
       activesupport (>= 2.3.4)
 
@@ -134,4 +134,4 @@ DEPENDENCIES
   rspec-rails (~> 2.0)
   ruby-debug
   shoulda (~> 2.11)
-  whenever (~> 0.5)
+  whenever (~> 0.6)

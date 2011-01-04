@@ -25,5 +25,5 @@ group :test do
 end
 
 group :production do
-  gem 'whenever', '~> 0.5'
+  gem 'whenever', '~> 0.6'
 end
