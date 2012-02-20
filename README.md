@@ -1,4 +1,4 @@
-# JuggApp ![](http://stillmaintained.com/tsigo/juggapp.png)
+# JuggApp
 
 JuggApp is a Rails application written to provide a way for people to apply to my guild, [Juggernaut](http://www.juggernautguild.com).
 
